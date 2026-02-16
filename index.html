@@ -7,35 +7,8 @@
     <meta name="description" content="Alquiler vacacional en el Edificio Novelty I de Salou. Vistas al mar, piscina y ubicación privilegiada en el Paseo Jaime I. Reserva directa sin comisiones.">
     
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
-
-    <style>
-        :root { --primary: #0056b3; --secondary: #28a745; --danger: #ff4d4d; --dark: #333; --light: #f4f4f4; --free: #ebfaeb; }
-        body { font-family: 'Open Sans', sans-serif; margin: 0; color: var(--dark); line-height: 1.6; background-color: #fff; }
-        header { 
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('img/hero.jpg'); 
-            background-size: cover; background-position: center; 
-            color: white; height: 50vh; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; text-align: center; padding: 0 20px; 
-        }
-        h1 { margin: 0; font-size: 2.8rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        .container { max-width: 1000px; margin: auto; padding: 20px; }
-        .btn { display: inline-block; background: var(--secondary); color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; border: none; cursor: pointer; transition: 0.3s; }
-        .btn:hover { background: #218838; }
-        section { padding: 50px 0; border-bottom: 1px solid #eee; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; align-items: center; }
-        img { width: 100%; border-radius: 12px; shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        #calendar { max-width: 900px; margin: 20px auto; background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; }
-        .fc-daygrid-day { background-color: var(--free) !important; }
-        .fc-col-header-cell-cushion, .fc-daygrid-day-number { color: var(--dark); text-decoration: none; padding: 5px; }
-        form { background: var(--light); padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; }
-        input, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1rem; }
-        footer { text-align: center; padding: 30px; background: var(--dark); color: white; margin-top: 50px; }
-        .lang-selector { text-align: right; padding: 10px; background: #f4f4f4; position: sticky; top: 0; z-index: 2000; }
-        .lang-btn { cursor: pointer; border: none; background: none; font-size: 1rem; padding: 5px 10px; }
-    </style>
 </head>
 <body>
 
@@ -56,7 +29,7 @@
         <div class="grid">
             <div>
                 <h2 id="txt-apt-title">El Apartamento</h2>
-                <p id="txt-apt-desc">Disfruta de uno de los complejos más exclusivos de Salou. Nuestro apartamento en el <strong>Edificio Novelty I</strong> cuenta con:</p>
+                <p id="txt-apt-desc">Disfruta de uno de los complejos más exclusivos de Salou. Nuestro apartamento en el Edificio Novelty I cuenta con:</p>
                 <ul id="txt-apt-list">
                     <li>Terraza privada con vistas.</li>
                     <li>Piscina comunitaria para adultos y niños.</li>
@@ -67,6 +40,18 @@
             <div>
                 <img src="img/principal.jpg" alt="Vistas Apartamento Novelty I">
             </div>
+        </div>
+    </section>
+
+    <section id="galeria">
+        <h2 id="txt-gal-title" style="text-align: center;">Galería de Fotos</h2>
+        <div class="gallery-grid">
+            <img src="img/foto1.jpg" class="gallery-item" alt="Foto 1">
+            <img src="img/foto2.jpg" class="gallery-item" alt="Foto 2">
+            <img src="img/foto3.jpg" class="gallery-item" alt="Foto 3">
+            <img src="img/foto4.jpg" class="gallery-item" alt="Foto 4">
+            <img src="img/foto5.jpg" class="gallery-item" alt="Foto 5">
+            <img src="img/foto6.jpg" class="gallery-item" alt="Foto 6">
         </div>
     </section>
 
@@ -127,103 +112,7 @@
     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="width:35px; margin-top:12px;" alt="WhatsApp">
 </a>
 
-<script>
-  const translations = {
-    'es': {
-      'txt-h1': 'Apartamento Novelty I - Salou',
-      'txt-hero-sub': 'Tu estancia frente al mar en el Paseo Jaime I',
-      'txt-btn-hero': 'Consultar Disponibilidad',
-      'txt-apt-title': 'El Apartamento',
-      'txt-apt-desc': 'Disfruta de uno de los complejos más exclusivos de Salou. Nuestro apartamento en el Edificio Novelty I cuenta con:',
-      'txt-apt-list': '<li>Terraza privada con vistas.</li><li>Piscina comunitaria para adultos y niños.</li><li>Aire acondicionado, Wi-Fi y cocina equipada.</li><li>Ubicación inmejorable: a 50 metros de la playa.</li>',
-      'txt-cal-title': 'Disponibilidad y Fechas',
-      'txt-cal-desc': 'Los días marcados en ROJO ya están reservados. El resto de días están LIBRES.',
-      'txt-form-title': 'Solicitud de Reserva',
-      'txt-form-desc': 'Envíanos tus fechas y te confirmaremos el presupuesto en menos de 24 horas.',
-      'lbl-name': 'Nombre Completo:',
-      'lbl-in': 'Fecha de Entrada:',
-      'lbl-out': 'Fecha de Salida:',
-      'lbl-email': 'Email de contacto:',
-      'lbl-msg': 'Mensaje o peticiones especiales:',
-      'txt-btn-submit': 'Enviar Solicitud de Reserva'
-    },
-    'en': {
-      'txt-h1': 'Novelty I Apartment - Salou',
-      'txt-hero-sub': 'Your seaside stay at Paseo Jaime I',
-      'txt-btn-hero': 'Check Availability',
-      'txt-apt-title': 'The Apartment',
-      'txt-apt-desc': 'Enjoy one of the most exclusive complexes in Salou. Our apartment in the Novelty I Building features:',
-      'txt-apt-list': '<li>Private terrace with views.</li><li>Community pool for adults and children.</li><li>Air conditioning, Wi-Fi and equipped kitchen.</li><li>Unbeatable location: 50 meters from the beach.</li>',
-      'txt-cal-title': 'Availability and Dates',
-      'txt-cal-desc': 'Days marked in RED are already booked. All other days are FREE.',
-      'txt-form-title': 'Booking Request',
-      'txt-form-desc': 'Send us your dates and we will confirm the budget in less than 24 hours.',
-      'lbl-name': 'Full Name:',
-      'lbl-in': 'Arrival Date:',
-      'lbl-out': 'Departure Date:',
-      'lbl-email': 'Contact Email:',
-      'lbl-msg': 'Message or special requests:',
-      'txt-btn-submit': 'Send Booking Request'
-    },
-    'fr': {
-      'txt-h1': 'Appartement Novelty I - Salou',
-      'txt-hero-sub': 'Votre séjour face à la mer sur le Paseo Jaime I',
-      'txt-btn-hero': 'Vérifier la Disponibilité',
-      'txt-apt-title': "L'Appartement",
-      'txt-apt-desc': "Profitez de l'un des complexes les plus exclusifs de Salou. Notre appartement dans l'immeuble Novelty I comprend :",
-      'txt-apt-list': '<li>Terrasse privée avec vue.</li><li>Piscine communautaire pour adultes et enfants.</li><li>Climatisation, Wi-Fi et cuisine équipée.</li><li>Emplacement imbattable : à 50 mètres de la plage.</li>',
-      'txt-cal-title': 'Disponibilidad y Fechas',
-      'txt-cal-desc': 'Les jours marqués en ROUGE sont déjà réservés. Les autres jours sont LIBRES.',
-      'txt-form-title': 'Demande de Réservation',
-      'txt-form-desc': 'Envoyez-nous vos dates et nous confirmerons le budget en moins de 24 heures.',
-      'lbl-name': 'Nom complet :',
-      'lbl-in': "Date d'arrivée :",
-      'lbl-out': 'Date de départ :',
-      'lbl-email': 'E-mail de contact :',
-      'lbl-msg': 'Message ou demandes spéciales :',
-      'txt-btn-submit': 'Envoyer la demande de réservation'
-    }
-  };
-
-  function changeLang(lang) {
-    // Cambiamos los textos sin recargar la página
-    for (let id in translations[lang]) {
-      const element = document.getElementById(id);
-      if (element) {
-        element.innerHTML = translations[lang][id];
-      }
-    }
-    
-    // Cambiamos el placeholder del mensaje por separado
-    const msgField = document.getElementById('placeholder-msg');
-    if (msgField) {
-        if (lang === 'en') msgField.placeholder = "How many people? Any questions?";
-        else if (lang === 'fr') msgField.placeholder = "Combien de personnes? Des questions?";
-        else msgField.placeholder = "¿Cuántas personas sois? ¿Alguna duda?";
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      locale: 'es',
-      firstDay: 1,
-      headerToolbar: { left: 'prev,next today', center: 'title', right: '' },
-      events: [
-        { title: 'RESERVADO', start: '2026-04-02', end: '2026-04-06', color: '#ff4d4d', display: 'background' },
-        { title: 'RESERVADO', start: '2026-05-24', end: '2026-06-01', color: '#ff4d4d', display: 'background' },
-        { title: 'RESERVADO', start: '2026-06-05', end: '2026-06-11', color: '#ff4d4d', display: 'background' },
-        { title: 'RESERVADO', start: '2026-06-22', end: '2026-07-03', color: '#ff4d4d', display: 'background' },
-        { title: 'RESERVADO', start: '2026-07-13', end: '2026-07-22', color: '#ff4d4d', display: 'background' },
-        { title: 'RESERVADO', start: '2026-08-03', end: '2026-08-19', color: '#ff4d4d', display: 'background' },
-        { title: 'RESERVADO', start: '2026-08-19', end: '2026-08-30', color: '#ff4d4d', display: 'background' },
-        { title: 'RESERVADO', start: '2026-09-01', end: '2026-09-24', color: '#ff4d4d', display: 'background' }
-      ]
-    });
-    calendar.render();
-  });
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,68 @@
+:root { 
+    --primary: #0056b3; 
+    --secondary: #28a745; 
+    --danger: #ff4d4d; 
+    --dark: #333; 
+    --light: #f4f4f4; 
+    --free: #ebfaeb; 
+}
+
+body { 
+    font-family: 'Open Sans', sans-serif; 
+    margin: 0; 
+    color: var(--dark); 
+    line-height: 1.6; 
+    background-color: #fff; 
+}
+
+header { 
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('img/hero.jpg'); 
+    background-size: cover; 
+    background-position: center; 
+    color: white; 
+    height: 50vh; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+    padding: 0 20px; 
+}
+
+h1 { margin: 0; font-size: 2.8rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+.container { max-width: 1000px; margin: auto; padding: 20px; }
+.btn { display: inline-block; background: var(--secondary); color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; border: none; cursor: pointer; transition: 0.3s; }
+.btn:hover { background: #218838; }
+section { padding: 50px 0; border-bottom: 1px solid #eee; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; align-items: center; }
+img { width: 100%; border-radius: 12px; }
+
+/* Galería */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+.gallery-item {
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+.gallery-item:hover { transform: scale(1.03); }
+
+/* Calendario */
+#calendar { max-width: 900px; margin: 20px auto; background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; }
+.fc-daygrid-day { background-color: var(--free) !important; }
+.fc-col-header-cell-cushion, .fc-daygrid-day-number { color: var(--dark); text-decoration: none; padding: 5px; }
+
+/* Formulario */
+form { background: var(--light); padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+.form-group { margin-bottom: 20px; }
+label { display: block; margin-bottom: 8px; font-weight: bold; }
+input, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1rem; }
+footer { text-align: center; padding: 30px; background: var(--dark); color: white; margin-top: 50px; }
+.lang-selector { text-align: right; padding: 10px; background: #f4f4f4; position: sticky; top: 0; z-index: 2000; }
+.lang-btn { cursor: pointer; border: none; background: none; font-size: 1rem; padding: 5px 10px; }
