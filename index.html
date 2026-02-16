@@ -172,7 +172,7 @@
       'txt-apt-title': "L'Appartement",
       'txt-apt-desc': "Profitez de l'un des complexes les plus exclusifs de Salou. Notre appartement dans l'immeuble Novelty I comprend :",
       'txt-apt-list': '<li>Terrasse privée avec vue.</li><li>Piscine communautaire pour adultes et enfants.</li><li>Climatisation, Wi-Fi et cuisine équipée.</li><li>Emplacement imbattable : à 50 mètres de la plage.</li>',
-      'txt-cal-title': 'Disponibilité et Dates',
+      'txt-cal-title': 'Disponibilidad y Fechas',
       'txt-cal-desc': 'Les jours marqués en ROUGE sont déjà réservés. Les autres jours sont LIBRES.',
       'txt-form-title': 'Demande de Réservation',
       'txt-form-desc': 'Envoyez-nous vos dates et nous confirmerons le budget en moins de 24 heures.',
@@ -186,11 +186,21 @@
   };
 
   function changeLang(lang) {
+    // Cambiamos los textos sin recargar la página
     for (let id in translations[lang]) {
-      document.getElementById(id).innerHTML = translations[lang][id];
+      const element = document.getElementById(id);
+      if (element) {
+        element.innerHTML = translations[lang][id];
+      }
     }
-    // Opcional: Cambiar el idioma del calendario
-    location.reload(); // Para que el calendario se recargue en el nuevo idioma si es necesario
+    
+    // Cambiamos el placeholder del mensaje por separado
+    const msgField = document.getElementById('placeholder-msg');
+    if (msgField) {
+        if (lang === 'en') msgField.placeholder = "How many people? Any questions?";
+        else if (lang === 'fr') msgField.placeholder = "Combien de personnes? Des questions?";
+        else msgField.placeholder = "¿Cuántas personas sois? ¿Alguna duda?";
+    }
   }
 
   document.addEventListener('DOMContentLoaded', function() {
