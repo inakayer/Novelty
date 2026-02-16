@@ -53,27 +53,37 @@ const translations = {
       'lbl-in': "Date d'arrivée :",
       'lbl-out': 'Date de départ :',
       'lbl-email': 'E-mail de contact :',
-      'lbl-msg': 'Message o solicitudes especiales :',
+      'lbl-msg': 'Message ou demandes spéciales :',
       'txt-btn-submit': 'Envoyer la demande de réservation'
     }
 };
 
 function changeLang(lang) {
+    // 1. Cambiar textos
     for (let id in translations[lang]) {
         const element = document.getElementById(id);
         if (element) element.innerHTML = translations[lang][id];
     }
+
+    // 2. Cambiar placeholders del formulario
     const msgField = document.getElementById('placeholder-msg');
     if (msgField) {
         if (lang === 'en') msgField.placeholder = "How many people? Any questions?";
         else if (lang === 'fr') msgField.placeholder = "Combien de personnes? Des questions?";
         else msgField.placeholder = "¿Cuántas personas sois? ¿Alguna duda?";
     }
+
+    // 3. ACTUALIZAR IDIOMA DEL CALENDARIO
+    if (window.calendar) {
+        window.calendar.setOption('locale', lang);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+    
+    // Lo guardamos en window.calendar para que sea accesible desde la función changeLang
+    window.calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         locale: 'es',
         firstDay: 1,
@@ -89,5 +99,5 @@ document.addEventListener('DOMContentLoaded', function() {
             { title: 'RESERVADO', start: '2026-09-01', end: '2026-09-24', color: '#ff4d4d', display: 'background' }
         ]
     });
-    calendar.render();
+    window.calendar.render();
 });
