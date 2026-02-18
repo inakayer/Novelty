@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-in Online | Novelty I Salou</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <style>
+        .reg-container { max-width: 700px; margin: 20px auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .guest-card { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid var(--secondary); position: relative; }
+        .remove-btn { position: absolute; top: 10px; right: 10px; color: #ff4d4d; cursor: pointer; font-weight: bold; }
+        canvas { border: 1px solid #ccc; border-radius: 4px; width: 100%; height: 180px; background: #fff; cursor: crosshair; }
+        .form-section { background: #fff; padding: 20px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 20px; }
+        .btn-add { background: var(--primary); margin-bottom: 20px; width: 100%; color: white; }
+        .btn-submit { background: var(--secondary); width: 100%; font-size: 1.2rem; color: white; }
+        .lang-img { width: 20px; vertical-align: middle; margin-right: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="lang-selector">
+    <button class="lang-btn" onclick="changeLangReg('es')"><img src="https://flagcdn.com/w20/es.png" class="lang-img"> ES</button> | 
+    <button class="lang-btn" onclick="changeLangReg('en')"><img src="https://flagcdn.com/w20/gb.png" class="lang-img"> EN</button> | 
+    <button class="lang-btn" onclick="changeLangReg('fr')"><img src="https://flagcdn.com/w20/fr.png" class="lang-img"> FR</button>
+</div>
+
+<div class="reg-container">
+    <h2 id="reg-title">Registro Familiar de Viajeros</h2>
+    <p id="reg-subtitle">Añada a todos los miembros de la reserva (mayores de 14 años)</p>
+    <hr>
+
+    <div id="guests-list"></div>
+
+    <div class="form-section" id="current-guest-form">
+        <h3 id="txt-add-guest">Datos del Huésped</h3>
+        <div class="form-group">
+            <label id="lbl-nombre">Nombre y Apellidos:</label>
+            <input type="text" id="temp-nombre" placeholder="Juan Pérez">
+        </div>
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="form-group">
+                <label id="lbl-dni">DNI / Pasaporte:</label>
+                <input type="text" id="temp-dni">
+            </div>
+            <div class="form-group">
+                <label id="lbl-f-exp">Expedición:</label>
+                <input type="date" id="temp-f-exp">
+            </div>
+        </div>
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="form-group">
+                <label id="lbl-f-nac">Nacimiento:</label>
+                <input type="date" id="temp-f-nac">
+            </div>
+            <div class="form-group">
+                <label id="lbl-pais">Nacionalidad:</label>
+                <input type="text" id="temp-pais">
+            </div>
+        </div>
+        <button type="button" class="btn btn-add" id="btn-add-to-list" onclick="addGuestToList()">+ Añadir a la lista</button>
+    </div>
+<form name="registro-familiar" method="POST" data-netlify="true" action="success-registro.html" onsubmit="return validateFinalForm()">
+            <input type="hidden" name="form-name" value="registro-familiar" />
+        <input type="hidden" name="datos_familia_completa" id="final-data">
+        <input type="hidden" name="firma_responsable" id="final-signature">
+
+        <div id="final-section" class="hidden">
+            <div class="signature-box" style="margin-bottom: 20px;">
+                <label id="lbl-firma" style="font-weight: bold; display: block; margin-bottom: 10px;">Firma del responsable:</label>
+                <canvas id="signature-pad"></canvas>
+                <button type="button" onclick="signaturePad.clear()" style="margin-top: 5px; cursor:pointer;">Borrar firma</button>
+            </div>
+            <button type="submit" class="btn btn-submit" id="btn-send-all">ENVIAR TODO EL REGISTRO</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    let guests = [];
+    const canvas = document.getElementById('signature-pad');
+    const signaturePad = new SignaturePad(canvas);
+
+    function addGuestToList() {
+        const nombre = document.getElementById('temp-nombre').value;
+        const dni = document.getElementById('temp-dni').value;
+        if(!nombre || !dni) { alert("Por favor, rellena nombre y DNI"); return; }
+
+        const guest = {
+            nombre: nombre,
+            dni: dni,
+            f_exp: document.getElementById('temp-f-exp').value,
+            f_nac: document.getElementById('temp-f-nac').value,
+            pais: document.getElementById('temp-pais').value
+        };
+
+        guests.push(guest);
+        renderGuests();
+        clearTempForm();
+        document.getElementById('final-section').classList.remove('hidden');
+    }
+
+    function renderGuests() {
+        const listDiv = document.getElementById('guests-list');
+        listDiv.innerHTML = '';
+        guests.forEach((g, index) => {
+            listDiv.innerHTML += `
+                <div class="guest-card">
+                    <span class="remove-btn" onclick="removeGuest(${index})">✕</span>
+                    <strong>${g.nombre}</strong><br>
+                    <small>ID: ${g.dni} | Nac: ${g.f_nac} | Pais: ${g.pais}</small>
+                </div>
+            `;
+        });
+    }
+
+    function removeGuest(index) {
+        guests.splice(index, 1);
+        renderGuests();
+        if(guests.length === 0) document.getElementById('final-section').classList.add('hidden');
+    }
+
+    function clearTempForm() {
+        ['temp-nombre', 'temp-dni', 'temp-f-exp', 'temp-f-nac', 'temp-pais'].forEach(id => document.getElementById(id).value = '');
+    }
+
+    function validateFinalForm() {
+    if (signaturePad.isEmpty()) {
+        alert("Por favor, firme en el recuadro antes de enviar.");
+        return false;
+    }
+    // Preparamos los datos
+    let summary = guests.map(g => `Nombre: ${g.nombre}, DNI: ${g.dni}, Exp: ${g.f_exp}, Nac: ${g.f_nac}, Pais: ${g.pais}`).join(' | ');
+    document.getElementById('final-data').value = summary;
+    document.getElementById('final-signature').value = signaturePad.toDataURL();
+    
+    // No ponemos alert aquí para que Netlify nos redirija suavemente
+    return true; 
+}
+
+    const regTranslations = {
+        'es': {
+            'reg-title': 'Registro Familiar de Viajeros',
+            'reg-subtitle': 'Añada a todos los miembros de la reserva (mayores de 14 años)',
+            'txt-add-guest': 'Datos del Huésped',
+            'lbl-nombre': 'Nombre y Apellidos:',
+            'lbl-dni': 'DNI / Pasaporte:',
+            'lbl-f-exp': 'Expedición:',
+            'lbl-f-nac': 'Nacimiento:',
+            'lbl-pais': 'Nacionalidad:',
+            'btn-add-to-list': '+ Añadir a la lista',
+            'btn-send-all': 'ENVIAR TODO EL REGISTRO',
+            'lbl-firma': 'Firma del responsable (padre/madre/titular):'
+        },
+        'en': {
+            'reg-title': 'Guest Family Registration',
+            'reg-subtitle': 'Add all members of the reservation (over 14 years old)',
+            'txt-add-guest': 'Guest Details',
+            'lbl-nombre': 'Full Name:',
+            'lbl-dni': 'ID / Passport:',
+            'lbl-f-exp': 'Issue Date:',
+            'lbl-f-nac': 'Date of Birth:',
+            'lbl-pais': 'Nationality:',
+            'btn-add-to-list': '+ Add to list',
+            'btn-send-all': 'SEND ALL REGISTRATIONS',
+            'lbl-firma': 'Responsible signature (Owner/Parent):'
+        },
+        'fr': {
+            'reg-title': 'Enregistrement Familial',
+            'reg-subtitle': 'Ajoutez tous les membres de la réservation (plus de 14 ans)',
+            'txt-add-guest': 'Détails du Voyageur',
+            'lbl-nombre': 'Nom et Prénom:',
+            'lbl-dni': 'Nº DNI ou Passeport:',
+            'lbl-f-exp': 'Date de délivrance:',
+            'lbl-f-nac': 'Date de naissance:',
+            'lbl-pais': 'Nationalité:',
+            'btn-add-to-list': '+ Ajouter à la liste',
+            'btn-send-all': 'ENVOYER TOUT LE REGISTRE',
+            'lbl-firma': 'Signature du responsable (Titulaire/Parent) :'
+        }
+    };
+
+    function changeLangReg(lang) {
+        for (let id in regTranslations[lang]) {
+            const el = document.getElementById(id);
+            if (el) el.innerText = regTranslations[lang][id];
+        }
+    }
+
+    function resizeCanvas() {
+        var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext("2d").scale(ratio, ratio);
+        signaturePad.clear();
+    }
+    window.onresize = resizeCanvas;
+    resizeCanvas();
+</script>
+</body>
+</html>
