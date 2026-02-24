@@ -6,7 +6,6 @@
     <title>Check-in Online | Novelty I Salou</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231a2a3a'/><path d='M50 18 L82 42 L82 82 L18 82 L18 42 Z' fill='none' stroke='%23c5a059' stroke-width='5'/><rect x='38' y='55' width='24' height='27' fill='%23c5a059'/><rect x='60' y='30' width='12' height='16' fill='%23c5a059' opacity='0.6'/></svg>">
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
     <style>
         :root { --primary:#1a2a3a; --accent:#c5a059; --accent-light:#e8d5a3; --bg:#faf9f7; --text:#3d3d3d; --text-light:#777; --border:#e5e2dc; --border-light:#f0ede8; --radius:4px; }
         * { box-sizing:border-box; margin:0; padding:0; }
@@ -48,13 +47,17 @@
         .btn-submit { width:100%; background:var(--primary); color:white; border:none; padding:18px; font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; cursor:pointer; border-radius:var(--radius); transition:background 0.2s; }
         .btn-submit:hover { background:var(--accent); }
 
-        .signature-wrap label { display:block; font-size:0.72rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-light); margin-bottom:10px; font-weight:600; }
-        canvas { border:1.5px solid var(--border); border-radius:var(--radius); width:100%; height:180px; background:white; cursor:crosshair; display:block; transition:border-color 0.2s; }
-        canvas:hover { border-color:var(--accent); }
-        .btn-clear { background:none; border:none; color:var(--text-light); font-size:0.75rem; cursor:pointer; margin-top:8px; padding:4px 0; font-family:'DM Sans',sans-serif; text-decoration:underline; }
-        .btn-clear:hover { color:var(--accent); }
 
         .hidden { display:none; }
+        .signature-wrap label { display:block; font-size:0.72rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-light); margin-bottom:10px; font-weight:600; }
+        #signature-pad { border:1.5px solid var(--border); border-radius:var(--radius); width:100%; height:200px; background:white; cursor:crosshair; display:block; transition:border-color 0.2s; touch-action:none; }
+        #signature-pad:hover { border-color:var(--accent); }
+        .btn-clear { background:none; border:none; color:var(--text-light); font-size:0.75rem; cursor:pointer; margin-top:8px; padding:4px 0; font-family:'DM Sans',sans-serif; text-decoration:underline; }
+        .btn-clear:hover { color:var(--accent); }
+        .field-section-label { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--primary); margin:24px 0 14px; padding-bottom:8px; border-bottom:1px solid var(--border-light); }
+        .field-section-label:first-of-type { margin-top:0; }
+        select { width:100%; padding:11px 14px; border:1.5px solid var(--border); border-radius:var(--radius); font-family:'DM Sans',sans-serif; font-size:0.9rem; color:var(--text); background:var(--bg); transition:border-color 0.2s; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23777' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; }
+        select:focus { outline:none; border-color:var(--accent); background-color:white; }
 
         .info-box { background:rgba(197,160,89,0.08); border:1px solid rgba(197,160,89,0.3); border-radius:6px; padding:14px 18px; margin-bottom:20px; font-size:0.82rem; color:var(--primary); line-height:1.7; }
         .info-box strong { display:block; margin-bottom:4px; color:var(--accent); font-size:0.75rem; letter-spacing:1px; text-transform:uppercase; }
@@ -67,6 +70,7 @@
 
         @media(max-width:640px) { .form-row { grid-template-columns:1fr; } .card { padding:20px; } .page-header h1 { font-size:1.8rem; } }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 </head>
 <body>
 
@@ -103,30 +107,78 @@
         <p class="card-title" id="txt-add-guest">Datos del Huésped</p>
         <p class="card-sub" id="txt-add-guest-sub">Rellena los datos y pulsa "Añadir" para cada persona</p>
 
+        <p class="field-section-label" id="lbl-sec-doc">📄 Documento de identidad</p>
+        <div class="form-row">
+            <div class="form-group">
+                <label id="lbl-tipo-doc">Tipo de documento</label>
+                <select id="temp-tipo-doc">
+                    <option value="DNI">DNI</option>
+                    <option value="Pasaporte">Pasaporte</option>
+                    <option value="NIE">NIE</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label id="lbl-dni">Número de documento</label>
+                <input type="text" id="temp-dni" autocomplete="off">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label id="lbl-f-exp">Fecha de expedición</label>
+                <input type="date" id="temp-f-exp">
+            </div>
+            <div class="form-group">
+                <label id="lbl-pais-doc">País de expedición</label>
+                <input type="text" id="temp-pais-doc" autocomplete="off">
+            </div>
+        </div>
+
+        <p class="field-section-label" id="lbl-sec-personal">👤 Datos personales</p>
         <div class="form-group">
-            <label id="lbl-nombre">Nombre y Apellidos</label>
+            <label id="lbl-nombre">Nombre y apellidos completos</label>
             <input type="text" id="temp-nombre" autocomplete="name">
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label id="lbl-dni">DNI / Pasaporte</label>
-                <input type="text" id="temp-dni" autocomplete="off">
+                <label id="lbl-sexo">Sexo</label>
+                <select id="temp-sexo">
+                    <option value="">—</option>
+                    <option value="M" id="opt-m">Masculino</option>
+                    <option value="F" id="opt-f">Femenino</option>
+                </select>
             </div>
             <div class="form-group">
-                <label id="lbl-f-exp">Fecha de Expedición</label>
-                <input type="date" id="temp-f-exp">
+                <label id="lbl-f-nac">Fecha de nacimiento</label>
+                <input type="date" id="temp-f-nac">
             </div>
+        </div>
+        <div class="form-group">
+            <label id="lbl-direccion">Dirección completa</label>
+            <input type="text" id="temp-direccion" autocomplete="street-address">
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label id="lbl-f-nac">Fecha de Nacimiento</label>
-                <input type="date" id="temp-f-nac">
+                <label id="lbl-localidad">Localidad</label>
+                <input type="text" id="temp-localidad" autocomplete="address-level2">
             </div>
             <div class="form-group">
-                <label id="lbl-pais">Nacionalidad</label>
-                <input type="text" id="temp-pais" autocomplete="off">
+                <label id="lbl-pais">País de residencia</label>
+                <input type="text" id="temp-pais" autocomplete="country-name">
             </div>
         </div>
+
+        <p class="field-section-label" id="lbl-sec-contact">📱 Datos de contacto</p>
+        <div class="form-row">
+            <div class="form-group">
+                <label id="lbl-telefono">Teléfono móvil</label>
+                <input type="tel" id="temp-telefono" autocomplete="tel">
+            </div>
+            <div class="form-group">
+                <label id="lbl-email">Correo electrónico</label>
+                <input type="email" id="temp-email" autocomplete="email">
+            </div>
+        </div>
+
         <button type="button" class="btn-add" id="btn-add-to-list" onclick="addGuestToList()">+ Añadir a la lista</button>
     </div>
 
@@ -139,13 +191,13 @@
         <div id="final-section" class="hidden">
             <div class="card">
                 <p class="card-title" id="lbl-firma-title">Firma del responsable</p>
-                <p class="card-sub" id="lbl-firma-sub">Padre / madre / titular de la reserva</p>
-
+                <p class="card-sub" id="lbl-firma-sub">Firma obligatoria según el RD 933/2021</p>
                 <div class="signature-wrap">
-                    <label id="lbl-firma">Firme en el recuadro con el dedo o ratón</label>
+                    <label id="lbl-firma">Firme con el dedo (móvil) o con el ratón (PC)</label>
                     <canvas id="signature-pad"></canvas>
-                    <button type="button" class="btn-clear" id="btn-clear-sig" onclick="signaturePad.clear()">Borrar y repetir firma</button>
+                    <button type="button" class="btn-clear" id="btn-clear-sig" onclick="clearSignature()">Borrar y repetir firma</button>
                 </div>
+            </div>
             </div>
 
             <button type="submit" class="btn-submit" id="btn-send-all">Enviar Registro Completo</button>
@@ -160,36 +212,61 @@
 
 <script>
     let guests = [];
-    const canvas = document.getElementById('signature-pad');
-    const signaturePad = new SignaturePad(canvas);
+    let signaturePad = null;
 
-    function resizeCanvas() {
-        var ratio = Math.max(window.devicePixelRatio || 1, 1);
+    function initSignaturePad() {
+        const canvas = document.getElementById('signature-pad');
+        if (!canvas || signaturePad) return;
+        // Force correct pixel dimensions after element is visible
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
         canvas.width = canvas.offsetWidth * ratio;
         canvas.height = canvas.offsetHeight * ratio;
-        canvas.getContext("2d").scale(ratio, ratio);
-        signaturePad.clear();
+        canvas.getContext('2d').scale(ratio, ratio);
+        signaturePad = new SignaturePad(canvas, { backgroundColor: 'rgb(255,255,255)' });
     }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+
+    function clearSignature() {
+        if (signaturePad) signaturePad.clear();
+    }
+
+    window.addEventListener('resize', function() {
+        if (!signaturePad) return;
+        const canvas = document.getElementById('signature-pad');
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        const data = signaturePad.toData();
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext('2d').scale(ratio, ratio);
+        signaturePad.clear();
+        signaturePad.fromData(data);
+    });
 
     function addGuestToList() {
         const nombre = document.getElementById('temp-nombre').value.trim();
         const dni = document.getElementById('temp-dni').value.trim();
         if (!nombre || !dni) {
-            const msg = { es: 'Por favor, rellena el nombre y el DNI/Pasaporte', en: 'Please fill in name and ID/Passport', fr: 'Veuillez remplir le nom et le numéro de document' };
+            const msg = { es: 'Por favor, rellena el nombre completo y el número de documento.', en: 'Please fill in full name and document number.', fr: "Veuillez remplir le nom complet et le numéro de document." };
             alert(msg[currentLang] || msg.es);
             return;
         }
         guests.push({
-            nombre, dni,
-            f_exp: document.getElementById('temp-f-exp').value,
+            nombre,
+            sexo: document.getElementById('temp-sexo').value,
             f_nac: document.getElementById('temp-f-nac').value,
-            pais: document.getElementById('temp-pais').value
+            tipo_doc: document.getElementById('temp-tipo-doc').value,
+            dni,
+            f_exp: document.getElementById('temp-f-exp').value,
+            pais_doc: document.getElementById('temp-pais-doc').value.trim(),
+            direccion: document.getElementById('temp-direccion').value.trim(),
+            localidad: document.getElementById('temp-localidad').value.trim(),
+            pais: document.getElementById('temp-pais').value.trim(),
+            telefono: document.getElementById('temp-telefono').value.trim(),
+            email: document.getElementById('temp-email').value.trim(),
         });
         renderGuests();
         clearTempForm();
         document.getElementById('final-section').classList.remove('hidden');
+        setTimeout(initSignaturePad, 50); // init after element is visible
     }
 
     function renderGuests() {
@@ -214,7 +291,7 @@
             card.innerHTML = `
                 <div class="guest-info">
                     <strong>${g.nombre}</strong>
-                    <small>${labels.id}: ${g.dni} · ${labels.nac}: ${g.f_nac || '—'} · ${labels.pais}: ${g.pais || '—'}</small>
+                    <small>${g.tipo_doc}: ${g.dni} · ${labels.nac}: ${g.f_nac || '—'} · ${g.telefono || '—'}</small>
                 </div>
                 <button class="remove-btn" onclick="removeGuest(${i})" title="Eliminar">✕</button>`;
             listDiv.appendChild(card);
@@ -228,19 +305,34 @@
     }
 
     function clearTempForm() {
-        ['temp-nombre','temp-dni','temp-f-exp','temp-f-nac','temp-pais'].forEach(id => document.getElementById(id).value = '');
+        ['temp-nombre','temp-dni','temp-f-exp','temp-pais-doc','temp-f-nac','temp-direccion','temp-localidad','temp-pais','temp-telefono','temp-email'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('temp-tipo-doc').value = 'DNI';
+        document.getElementById('temp-sexo').value = '';
         document.getElementById('temp-nombre').focus();
     }
 
     function validateFinalForm() {
-        if (signaturePad.isEmpty()) {
-            const msg = { es: 'Por favor, firme en el recuadro antes de enviar.', en: 'Please sign before submitting.', fr: 'Veuillez signer avant d\'envoyer.' };
+        if (guests.length === 0) {
+            const msg = { es: 'Por favor, añade al menos un huésped.', en: 'Please add at least one guest.', fr: "Veuillez ajouter au moins un voyageur." };
             alert(msg[currentLang] || msg.es);
             return false;
         }
-        const summary = guests.map(g => `Nombre: ${g.nombre} | Doc: ${g.dni} | Exp: ${g.f_exp} | Nac: ${g.f_nac} | País: ${g.pais}`).join(' || ');
+        if (!signaturePad || signaturePad.isEmpty()) {
+            const msg = { es: 'Por favor, firme en el recuadro antes de enviar.', en: 'Please sign before submitting.', fr: "Veuillez signer avant d'envoyer." };
+            alert(msg[currentLang] || msg.es);
+            return false;
+        }
+        // Comprimir firma a tamaño pequeño para no superar límite de Netlify
+        const canvas = document.getElementById('signature-pad');
+        const small = document.createElement('canvas');
+        small.width = 500; small.height = 180;
+        const ctx = small.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, 500, 180);
+        ctx.drawImage(canvas, 0, 0, 500, 180);
+        document.getElementById('final-signature').value = small.toDataURL('image/jpeg', 0.6);
+        const summary = guests.map((g,i) => `[${i+1}] ${g.nombre} | Sexo: ${g.sexo} | Nac: ${g.f_nac} | ${g.tipo_doc}: ${g.dni} | Exp: ${g.f_exp} | País doc: ${g.pais_doc} | Dirección: ${g.direccion}, ${g.localidad}, ${g.pais} | Tel: ${g.telefono} | Email: ${g.email}`).join(' || ');
         document.getElementById('final-data').value = summary;
-        document.getElementById('final-signature').value = signaturePad.toDataURL();
         return true;
     }
 
@@ -250,6 +342,16 @@
     const regTranslations = {
         es: {
             'reg-badge': 'Check-in Online',
+            'lbl-sec-doc': '📄 Documento de identidad',
+            'lbl-sec-personal': '👤 Datos personales',
+            'lbl-sec-contact': '📱 Datos de contacto',
+            'lbl-tipo-doc': 'Tipo de documento',
+            'lbl-pais-doc': 'País de expedición',
+            'lbl-sexo': 'Sexo',
+            'lbl-direccion': 'Dirección completa',
+            'lbl-localidad': 'Localidad',
+            'lbl-telefono': 'Teléfono móvil',
+            'lbl-email': 'Correo electrónico',
             'reg-title': 'Registro de Viajeros',
             'reg-subtitle': 'Añade a todos los huéspedes mayores de 14 años',
             'reg-info': 'Este registro es obligatorio por ley para alojamientos turísticos. Los datos se envían de forma segura y solo se usan para cumplir con la normativa de registro de viajeros.',
@@ -262,46 +364,66 @@
             'lbl-pais': 'Nacionalidad',
             'btn-add-to-list': '+ Añadir a la lista',
             'lbl-firma-title': 'Firma del responsable',
-            'lbl-firma-sub': 'Padre / madre / titular de la reserva',
-            'lbl-firma': 'Firme en el recuadro con el dedo o ratón',
+            'lbl-firma-sub': 'Firma obligatoria según el RD 933/2021',
+            'lbl-firma': 'Firme con el dedo (móvil) o con el ratón (PC)',
             'btn-clear-sig': 'Borrar y repetir firma',
             'btn-send-all': 'Enviar Registro Completo',
         },
         en: {
             'reg-badge': 'Online Check-in',
+            'lbl-sec-doc': '📄 Identity document',
+            'lbl-sec-personal': '👤 Personal details',
+            'lbl-sec-contact': '📱 Contact details',
+            'lbl-tipo-doc': 'Document type',
+            'lbl-pais-doc': 'Country of issue',
+            'lbl-sexo': 'Sex',
+            'lbl-direccion': 'Full address',
+            'lbl-localidad': 'City / Town',
+            'lbl-telefono': 'Mobile phone',
+            'lbl-email': 'Email address',
             'reg-title': 'Guest Registration',
             'reg-subtitle': 'Add all guests over 14 years old',
             'reg-info': 'This registration is required by law for tourist accommodations. Data is sent securely and only used to comply with traveller registration regulations.',
             'txt-add-guest': 'Guest Details',
             'txt-add-guest-sub': 'Fill in the details and click "Add" for each person',
-            'lbl-nombre': 'Full Name',
+            'lbl-nombre': 'Full name',
             'lbl-dni': 'ID / Passport',
             'lbl-f-exp': 'Issue Date',
             'lbl-f-nac': 'Date of Birth',
             'lbl-pais': 'Nationality',
             'btn-add-to-list': '+ Add to list',
             'lbl-firma-title': 'Responsible signature',
-            'lbl-firma-sub': 'Owner / parent / reservation holder',
-            'lbl-firma': 'Sign in the box with your finger or mouse',
+            'lbl-firma-sub': 'Mandatory signature under RD 933/2021',
+            'lbl-firma': 'Sign with your finger (mobile) or mouse (PC)',
             'btn-clear-sig': 'Clear and redo signature',
             'btn-send-all': 'Send Complete Registration',
         },
         fr: {
             'reg-badge': 'Check-in en Ligne',
+            'lbl-sec-doc': '📄 Document d\'identité',
+            'lbl-sec-personal': '👤 Données personnelles',
+            'lbl-sec-contact': '📱 Coordonnées',
+            'lbl-tipo-doc': 'Type de document',
+            'lbl-pais-doc': 'Pays de délivrance',
+            'lbl-sexo': 'Sexe',
+            'lbl-direccion': 'Adresse complète',
+            'lbl-localidad': 'Ville',
+            'lbl-telefono': 'Téléphone mobile',
+            'lbl-email': 'Adresse e-mail',
             'reg-title': 'Enregistrement des Voyageurs',
             'reg-subtitle': 'Ajoutez tous les voyageurs de plus de 14 ans',
             'reg-info': "Cet enregistrement est obligatoire par la loi pour les hébergements touristiques. Les données sont envoyées en toute sécurité et utilisées uniquement pour se conformer à la réglementation.",
             'txt-add-guest': 'Détails du Voyageur',
             'txt-add-guest-sub': 'Remplissez les données et cliquez sur "Ajouter" pour chaque personne',
-            'lbl-nombre': 'Nom et Prénom',
+            'lbl-nombre': 'Nom complet',
             'lbl-dni': 'DNI / Passeport',
             'lbl-f-exp': 'Date de délivrance',
             'lbl-f-nac': 'Date de naissance',
             'lbl-pais': 'Nationalité',
             'btn-add-to-list': '+ Ajouter à la liste',
             'lbl-firma-title': 'Signature du responsable',
-            'lbl-firma-sub': 'Père / mère / titulaire de la réservation',
-            'lbl-firma': 'Signez dans le cadre avec le doigt ou la souris',
+            'lbl-firma-sub': 'Signature obligatoire selon le RD 933/2021',
+            'lbl-firma': 'Signez avec le doigt (mobile) ou la souris (PC)',
             'btn-clear-sig': 'Effacer et recommencer',
             'btn-send-all': 'Envoyer le Registre Complet',
         }
