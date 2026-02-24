@@ -1,103 +1,464 @@
+// =============================
+// FOTOS para lightbox
+// =============================
+const photos = [
+    { src: 'img/foto5.jpg', caption: 'Vista aérea · Edificio Novelty I frente al mar' },
+    { src: 'img/foto1.jpg', caption: 'Terraza · Orientación este con sol de mañana' },
+    { src: 'img/foto2.jpg', caption: 'Dormitorio · Cama doble + armario' },
+    { src: 'img/foto3.jpg', caption: 'Piscina comunitaria · Jun-Sep' },
+    { src: 'img/foto4.jpg', caption: 'Baño · Reformado recientemente' },
+    { src: 'img/foto6.jpg', caption: 'Salón · Sofá cama + aire acondicionado' },
+    { src: 'img/foto7.jpg', caption: 'Cocina · Totalmente equipada con lavadora' },
+    { src: 'img/principal.jpg', caption: 'Edificio Novelty I · Paseo Jaime I' },
+];
+
+let currentPhoto = 0;
+
+function openLightbox(index) {
+    currentPhoto = index;
+    const lb = document.getElementById('lightbox');
+    lb.classList.add('open');
+    updateLightbox();
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function changePhoto(dir) {
+    currentPhoto = (currentPhoto + dir + photos.length) % photos.length;
+    updateLightbox();
+}
+
+function updateLightbox() {
+    const p = photos[currentPhoto];
+    document.getElementById('lb-img').src = p.src;
+    document.getElementById('lb-caption').textContent = `${currentPhoto + 1} / ${photos.length} · ${p.caption}`;
+}
+
+// Cerrar lightbox con teclado
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') changePhoto(1);
+    if (e.key === 'ArrowLeft') changePhoto(-1);
+});
+
+// =============================
+// TRADUCCIONES
+// =============================
 const translations = {
     'es': {
-      'txt-h1': 'Apartamento Novelty I - Salou',
-      'txt-hero-sub': 'Tu estancia frente al mar en el Paseo Jaime I',
-      'txt-btn-hero': 'Consultar Disponibilidad',
-      'txt-apt-title': 'El Apartamento',
-      'txt-apt-desc': 'Disfruta de uno de los complejos más exclusivos de Salou. Nuestro apartamento en el Edificio Novelty I cuenta con:',
-      'txt-apt-list': '<li>Terraza privada con vistas.</li><li>Piscina comunitaria para adultos y niños.</li><li>Aire acondicionado, Wi-Fi y cocina equipada.</li><li>Ubicación inmejorable: a 50 metros de la playa.</li>',
-      'txt-gal-title': 'Galería de Fotos',
-      'txt-cal-title': 'Disponibilidad y Fechas',
-      'txt-cal-desc': 'Los días marcados en ROJO ya están reservados. El resto de días están LIBRES.',
-      'txt-form-title': 'Solicitud de Reserva',
-      'txt-form-desc': 'Envíanos tus fechas y te confirmaremos el presupuesto en menos de 24 horas.',
-      'lbl-name': 'Nombre Completo:',
-      'lbl-in': 'Fecha de Entrada:',
-      'lbl-out': 'Fecha de Salida:',
-      'lbl-email': 'Email de contacto:',
-      'lbl-msg': 'Mensaje o peticiones especiales:',
-      'txt-btn-submit': 'Enviar Solicitud de Reserva'
+        'txt-nav-cta': 'Reservar',
+        'txt-hero-badge': 'Primera Línea de Playa · Salou',
+        'txt-h1': 'NOVELTY I',
+        'txt-hero-sub': 'Paseo Jaime I · Playa de Llevant',
+        'txt-score-label': 'Excelente',
+        'txt-booking-link': '★★★★★ Ver opiniones en Booking.com',
+        'txt-score-detail': 'Personal 9.1 · Limpieza 8.3 · Calidad-precio 9.0',
+        'txt-btn-hero': 'Consultar Disponibilidad',
+        'txt-btn-gallery': 'Ver Fotos',
+        'txt-trust1': 'Excelente 9.2 en Booking',
+        'txt-trust2': '50m de la playa',
+        'txt-trust3': 'Sin comisiones · Precio directo',
+        'txt-trust4': 'Propietario directo',
+        'txt-gallery-title': 'El Apartamento',
+        'txt-gallery-sub': '7 fotos reales · Sin filtros',
+        'txt-btn-more-photos': '+ Ver todas las fotos',
+        'txt-btn-booking-photos': '📷 Galería en Booking.com',
+        'txt-apt-title': 'Tu Apartamento',
+        'txt-stat-bed': 'Dormitorio',
+        'txt-stat-guests': 'Huéspedes',
+        'txt-stat-bath': 'Baño',
+        'txt-stat-beach': 'de la Playa',
+        'txt-f1-title': 'Ubicación Única',
+        'txt-f1-desc': 'Situado en el emblemático Edificio Novelty I, con salida directa al Paseo Jaime I y la Playa de Llevant. A 15 min de PortAventura.',
+        'txt-f2-title': 'Equipamiento Completo',
+        'txt-f2-desc': 'Cocina totalmente equipada, aire acondicionado, WiFi de alta velocidad, TV Smart y baño moderno recién reformado.',
+        'txt-f3-title': 'Piscina & Terraza',
+        'txt-f3-desc': 'Piscina comunitaria para adultos y niños (jun-sep). Terraza con orientación este, toldos y mobiliario exterior.',
+        'txt-amenities-title': 'Todos los servicios incluidos',
+        'txt-amen-kitchen': '🍳 Cocina',
+        'txt-amen-k1': 'Cocina vitrocerámica', 'txt-amen-k2': 'Microondas', 'txt-amen-k3': 'Cafetera',
+        'txt-amen-k4': 'Tostadora', 'txt-amen-k5': 'Nevera', 'txt-amen-k6': 'Lavadora', 'txt-amen-k7': 'Utensilios de cocina',
+        'txt-amen-room': '🛏️ Habitaciones',
+        'txt-amen-r1': 'Dormitorio con 2 camas + cama supletoria', 'txt-amen-r2': 'Sofá cama en salón', 'txt-amen-r3': 'Ropa de cama incluida',
+        'txt-amen-r4': 'Toallas incluidas', 'txt-amen-r5': 'Armarios amplios', 'txt-amen-r6': 'TV Smart',
+        'txt-amen-extra': '✨ Extras',
+        'txt-amen-e1': 'WiFi alta velocidad', 'txt-amen-e2': 'Aire acondicionado', 'txt-amen-e3': 'Terraza con toldos',
+        'txt-amen-e4': 'Piscina comunitaria', 'txt-amen-e5': 'Adaptado movilidad reducida', 'txt-amen-e6': 'Check-in online',
+        'txt-amen-e7': 'Secador de pelo', 'txt-amen-e8': 'Plancha de ropa',
+        'txt-reviews-title': 'Opiniones Verificadas',
+        'txt-reviews-sub': 'Reseñas reales de Booking.com',
+        'txt-reviews-label': 'Excelente',
+        'txt-rev-staff': 'Personal', 'txt-rev-price': 'Calidad-precio', 'txt-rev-clean': 'Limpieza',
+        'txt-rev1': '"Ubicación inmejorable, a un paso de la playa. El apartamento está muy bien equipado y el propietario muy atento. Repetiremos sin duda."',
+        'txt-rev1-author': 'María G. · España',
+        'txt-rev2': '"Perfect location right on the promenade. Clean, well-equipped, and the pool was a great bonus. Would definitely recommend!"',
+        'txt-rev2-author': 'James T. · United Kingdom',
+        'txt-rev3': '"Appartement très bien situé, propre et fonctionnel. La terrasse est top pour les petits déjeuners au soleil."',
+        'txt-rev3-author': 'Sophie M. · France',
+        'txt-all-reviews': 'Ver todas las opiniones en Booking.com →',
+        'txt-cal-title': 'Disponibilidad',
+        'txt-cal-sub': 'Actualizado en tiempo real',
+        'txt-cal-note': '* Las fechas en rojo están reservadas.',
+        'txt-form-title': 'Reserva Directa',
+        'txt-form-desc': 'Escríbeme directamente y te enviaré un presupuesto personalizado. Sin intermediarios, sin comisiones extra.',
+        'txt-perk1': 'Mejor precio garantizado',
+        'txt-perk2': 'Atención personalizada 24h',
+        'txt-perk3': 'Flexibilidad en fechas',
+        'txt-perk4': 'Check-in online sin esperas',
+        'txt-wa-btn': 'WhatsApp directo',
+        'lbl-name': 'Nombre', 'lbl-in': 'Entrada', 'lbl-out': 'Salida',
+        'lbl-guests': 'Huéspedes', 'lbl-email': 'E-mail', 'lbl-msg': 'Tu mensaje',
+        'txt-prices-title': 'Precios', 'txt-prices-sub': 'Reserva directa · Sin comisiones',
+        'txt-p-low-name': 'Temporada Baja', 'txt-p-low-dates': 'Octubre — Marzo', 'txt-p-low-note': '~79€/noche',
+        'txt-p-mid-name': 'Temporada Media', 'txt-p-mid-dates': 'Abr, May, Jun, Sep', 'txt-p-mid-note': '~107€/noche',
+        'txt-p-easter-name': 'Semana Santa', 'txt-p-easter-dates': 'Variable', 'txt-p-easter-note': '~121€/noche',
+        'txt-p-high-badge': 'Más popular', 'txt-p-high-name': 'Temporada Alta', 'txt-p-high-dates': 'Julio — Agosto', 'txt-p-high-note': '~164€/noche',
+        'txt-price-disclaimer': '* Precios orientativos para 2 personas. El precio final varía según el número de huéspedes.',
+        'txt-price-discount': '✓ Descuento para estancias superiores a 7 noches — consulta tu presupuesto personalizado.',
+        'txt-price-parking': '✓ Parking opcional en el mismo edificio: 12-15€/día.',
+        'txt-howto-title': 'Cómo Llegar', 'txt-howto-sub': 'Carrer de Berlín, 5 · Salou',
+        'txt-d1-name': 'Playa de Llevant', 'txt-d1-time': '50 metros · 1 min a pie',
+        'txt-d2-name': 'Supermercado', 'txt-d2-time': 'En el mismo edificio',
+        'txt-d3-name': 'Restaurantes', 'txt-d3-time': 'Múltiples opciones alrededor',
+        'txt-d4-name': 'PortAventura World', 'txt-d4-time': '15 min en coche',
+        'txt-d5-name': 'Aeropuerto de Reus', 'txt-d5-time': '20 min en coche',
+        'txt-d6-name': 'Parking privado', 'txt-d6-time': 'En el edificio · 12-15€/día (opcional)',
+        'txt-faq-title': 'Preguntas Frecuentes',
+        'txt-faq1-q': '¿Cuál es el horario de check-in y check-out?', 'txt-faq1-a': 'El check-in es a partir de las 16:00h y el check-out antes de las 11:00h. Si necesitas flexibilidad, consúltame con antelación.',
+        'txt-faq2-q': '¿Cuál es la política de cancelación?', 'txt-faq2-a': 'Cancelación gratuita hasta 15 días antes de la llegada. A partir de esa fecha se aplicará un cargo equivalente a una semana de estancia.',
+        'txt-faq3-q': '¿Se admiten mascotas?', 'txt-faq3-a': 'Lo sentimos, no se admiten mascotas en el apartamento.',
+        'txt-faq4-q': '¿Hay parking disponible?', 'txt-faq4-a': 'Sí, hay parking privado en el mismo edificio, disponible de forma opcional por 12-15€/día. Recomendamos reservarlo con antelación en temporada alta.',
+        'txt-faq5-q': '¿Cuántas personas caben?', 'txt-faq5-a': 'El apartamento tiene capacidad para 5 personas: dormitorio con 2 camas individuales (o doble) más una cama supletoria adicional y sofá cama en el salón.',
+        'txt-faq6-q': '¿Por qué reservar directamente?', 'txt-faq6-a': 'Al reservar directamente te ahorras las comisiones de Booking (15-20%) y obtienes atención personalizada. Cualquier duda la resuelves directamente conmigo.',
+        'txt-btn-submit': 'Enviar Consulta Directa',
+        'txt-checkin-link': 'Check-in Online',
+        'txt-footer-copy': '© 2026 Reservas directas con el propietario · Sin comisiones',
     },
     'en': {
-      'txt-h1': 'Novelty I Apartment - Salou',
-      'txt-hero-sub': 'Your seaside stay at Paseo Jaime I',
-      'txt-btn-hero': 'Check Availability',
-      'txt-apt-title': 'The Apartment',
-      'txt-apt-desc': 'Enjoy one of the most exclusive complexes in Salou. Our apartment in the Novelty I Building features:',
-      'txt-apt-list': '<li>Private terrace with views.</li><li>Community pool for adults and children.</li><li>Air conditioning, Wi-Fi and equipped kitchen.</li><li>Unbeatable location: 50 meters from the beach.</li>',
-      'txt-gal-title': 'Photo Gallery',
-      'txt-cal-title': 'Availability and Dates',
-      'txt-cal-desc': 'Days marked in RED are already booked. All other days are FREE.',
-      'txt-form-title': 'Booking Request',
-      'txt-form-desc': 'Send us your dates and we will confirm the budget in less than 24 hours.',
-      'lbl-name': 'Full Name:',
-      'lbl-in': 'Arrival Date:',
-      'lbl-out': 'Departure Date:',
-      'lbl-email': 'Contact Email:',
-      'lbl-msg': 'Message or special requests:',
-      'txt-btn-submit': 'Send Booking Request'
+        'txt-nav-cta': 'Book Now',
+        'txt-hero-badge': 'Beachfront · Salou',
+        'txt-h1': 'NOVELTY I',
+        'txt-hero-sub': 'Paseo Jaime I · Llevant Beach',
+        'txt-score-label': 'Excellent',
+        'txt-booking-link': '★★★★★ Read reviews on Booking.com',
+        'txt-score-detail': 'Staff 9.1 · Cleanliness 8.3 · Value for money 9.0',
+        'txt-btn-hero': 'Check Availability',
+        'txt-btn-gallery': 'View Photos',
+        'txt-trust1': 'Excellent 9.2 on Booking',
+        'txt-trust2': '50m from the beach',
+        'txt-trust3': 'No commissions · Direct price',
+        'txt-trust4': 'Direct from owner',
+        'txt-gallery-title': 'The Apartment',
+        'txt-gallery-sub': '7 real photos · No filters',
+        'txt-btn-more-photos': '+ View all photos',
+        'txt-btn-booking-photos': '📷 Photo gallery on Booking.com',
+        'txt-apt-title': 'Your Apartment',
+        'txt-stat-bed': 'Bedroom',
+        'txt-stat-guests': 'Guests',
+        'txt-stat-bath': 'Bathroom',
+        'txt-stat-beach': 'from Beach',
+        'txt-f1-title': 'Prime Location',
+        'txt-f1-desc': 'Located in the iconic Novelty I Building, with direct access to Paseo Jaime I and Llevant Beach. 15 min from PortAventura.',
+        'txt-f2-title': 'Fully Equipped',
+        'txt-f2-desc': 'Fully equipped kitchen, AC, high-speed WiFi, Smart TV and recently renovated modern bathroom.',
+        'txt-f3-title': 'Pool & Terrace',
+        'txt-f3-desc': 'Communal pool for adults and children (Jun-Sep). East-facing terrace with awning and outdoor furniture.',
+        'txt-amenities-title': 'All amenities included',
+        'txt-amen-kitchen': '🍳 Kitchen',
+        'txt-amen-k1': 'Ceramic hob', 'txt-amen-k2': 'Microwave', 'txt-amen-k3': 'Coffee maker',
+        'txt-amen-k4': 'Toaster', 'txt-amen-k5': 'Fridge', 'txt-amen-k6': 'Washing machine', 'txt-amen-k7': 'Cooking utensils',
+        'txt-amen-room': '🛏️ Rooms',
+        'txt-amen-r1': 'Bedroom with 2 beds + extra bed', 'txt-amen-r2': 'Sofa bed in living room', 'txt-amen-r3': 'Bed linen included',
+        'txt-amen-r4': 'Towels included', 'txt-amen-r5': 'Spacious wardrobes', 'txt-amen-r6': 'Smart TV',
+        'txt-amen-extra': '✨ Extras',
+        'txt-amen-e1': 'High-speed WiFi', 'txt-amen-e2': 'Air conditioning', 'txt-amen-e3': 'Terrace with awning',
+        'txt-amen-e4': 'Communal pool', 'txt-amen-e5': 'Accessible for reduced mobility', 'txt-amen-e6': 'Online check-in',
+        'txt-amen-e7': 'Hair dryer', 'txt-amen-e8': 'Clothes iron',
+        'txt-reviews-title': 'Verified Reviews',
+        'txt-reviews-sub': 'Real reviews from Booking.com',
+        'txt-reviews-label': 'Excellent',
+        'txt-rev-staff': 'Staff', 'txt-rev-price': 'Value for money', 'txt-rev-clean': 'Cleanliness',
+        'txt-rev1': '"Unbeatable location, a step away from the beach. The apartment is very well equipped and the owner is very attentive. We will definitely return."',
+        'txt-rev1-author': 'María G. · Spain',
+        'txt-rev2': '"Perfect location right on the promenade. Clean, well-equipped, and the pool was a great bonus. Would definitely recommend!"',
+        'txt-rev2-author': 'James T. · United Kingdom',
+        'txt-rev3': '"Very well located apartment, clean and functional. The terrace is great for sunny breakfasts. Owner responds quickly."',
+        'txt-rev3-author': 'Sophie M. · France',
+        'txt-all-reviews': 'See all reviews on Booking.com →',
+        'txt-cal-title': 'Availability',
+        'txt-cal-sub': 'Updated in real time',
+        'txt-cal-note': '* Dates in red are already booked.',
+        'txt-form-title': 'Direct Booking',
+        'txt-form-desc': 'Write to me directly and I will send you a personalised quote. No intermediaries, no extra commissions.',
+        'txt-perk1': 'Best price guaranteed',
+        'txt-perk2': 'Personal 24h support',
+        'txt-perk3': 'Flexible dates',
+        'txt-perk4': 'Online check-in, no waiting',
+        'txt-wa-btn': 'WhatsApp direct',
+        'lbl-name': 'Name', 'lbl-in': 'Check-in', 'lbl-out': 'Check-out',
+        'lbl-guests': 'Guests', 'lbl-email': 'E-mail', 'lbl-msg': 'Your message',
+        'txt-prices-title': 'Prices', 'txt-prices-sub': 'Direct booking · No commissions',
+        'txt-p-low-name': 'Low Season', 'txt-p-low-dates': 'October — March', 'txt-p-low-note': '~€79/night',
+        'txt-p-mid-name': 'Mid Season', 'txt-p-mid-dates': 'Apr, May, Jun, Sep', 'txt-p-mid-note': '~€107/night',
+        'txt-p-easter-name': 'Easter Week', 'txt-p-easter-dates': 'Variable', 'txt-p-easter-note': '~€121/night',
+        'txt-p-high-badge': 'Most popular', 'txt-p-high-name': 'High Season', 'txt-p-high-dates': 'July — August', 'txt-p-high-note': '~€164/night',
+        'txt-price-disclaimer': '* Indicative prices for 2 guests. Final price varies depending on the number of guests.',
+        'txt-price-discount': '✓ Discount for stays longer than 7 nights — ask for your personalised quote.',
+        'txt-price-parking': '✓ Optional parking in the same building: €12-15/day.',
+        'txt-howto-title': 'How to Get There', 'txt-howto-sub': 'Carrer de Berlín, 5 · Salou',
+        'txt-d1-name': 'Llevant Beach', 'txt-d1-time': '50 metres · 1 min walk',
+        'txt-d2-name': 'Supermarket', 'txt-d2-time': 'In the same building',
+        'txt-d3-name': 'Restaurants', 'txt-d3-time': 'Many options nearby',
+        'txt-d4-name': 'PortAventura World', 'txt-d4-time': '15 min by car',
+        'txt-d5-name': 'Reus Airport', 'txt-d5-time': '20 min by car',
+        'txt-d6-name': 'Private parking', 'txt-d6-time': 'In the building · €12-15/day (optional)',
+        'txt-faq-title': 'FAQ',
+        'txt-faq1-q': 'What are the check-in and check-out times?', 'txt-faq1-a': 'Check-in is from 16:00 and check-out before 11:00. If you need flexibility, let me know in advance.',
+        'txt-faq2-q': 'What is the cancellation policy?', 'txt-faq2-a': 'Free cancellation up to 15 days before arrival. After that, a charge equivalent to one week will apply.',
+        'txt-faq3-q': 'Are pets allowed?', 'txt-faq3-a': 'Sorry, pets are not allowed in the apartment.',
+        'txt-faq4-q': 'Is parking available?', 'txt-faq4-a': 'Yes, there is private parking in the same building, available optionally for €12-15/day. We recommend booking in advance in high season.',
+        'txt-faq5-q': 'How many guests can stay?', 'txt-faq5-a': 'The apartment accommodates up to 5 guests: bedroom with 2 single beds (can be joined as a double) plus an extra bed and a sofa bed in the living room.',
+        'txt-faq6-q': 'Why book directly?', 'txt-faq6-a': "By booking directly you save Booking.com commissions (15-20%) and get personal attention. Any question is answered directly by me.",
+        'txt-btn-submit': 'Send Direct Inquiry',
+        'txt-checkin-link': 'Online Check-in',
+        'txt-footer-copy': '© 2026 Direct bookings with the owner · No commissions',
     },
     'fr': {
-      'txt-h1': 'Appartement Novelty I - Salou',
-      'txt-hero-sub': 'Votre séjour face à la mer sur le Paseo Jaime I',
-      'txt-btn-hero': 'Vérifier la Disponibilité',
-      'txt-apt-title': "L'Appartement",
-      'txt-apt-desc': "Profitez de l'un des complexes les plus exclusifs de Salou. Notre appartement dans l'immeuble Novelty I comprend :",
-      'txt-apt-list': '<li>Terrasse privée avec vue.</li><li>Piscine communautaire pour adultes et enfants.</li><li>Climatisation, Wi-Fi et cuisine équipée.</li><li>Emplacement imbattable : à 50 mètres de la plage.</li>',
-      'txt-gal-title': 'Galerie de Photos',
-      'txt-cal-title': 'Disponibilité et Dates',
-      'txt-cal-desc': 'Les jours marqués en ROUGE sont déjà réservés. Les autres jours sont LIBRES.',
-      'txt-form-title': 'Demande de Réservation',
-      'txt-form-desc': 'Envoyez-nous vos dates et nous confirmerons le budget en moins de 24 heures.',
-      'lbl-name': 'Nom complet :',
-      'lbl-in': "Date d'arrivée :",
-      'lbl-out': 'Date de départ :',
-      'lbl-email': 'E-mail de contact :',
-      'lbl-msg': 'Message ou demandes spéciales :',
-      'txt-btn-submit': 'Envoyer la demande de réservation'
+        'txt-nav-cta': 'Réserver',
+        'txt-hero-badge': 'Front de Mer · Salou',
+        'txt-h1': 'NOVELTY I',
+        'txt-hero-sub': 'Paseo Jaime I · Plage de Llevant',
+        'txt-score-label': 'Excellent',
+        'txt-booking-link': '★★★★★ Voir avis sur Booking.com',
+        'txt-score-detail': 'Personnel 9.1 · Propreté 8.3 · Rapport qualité-prix 9.0',
+        'txt-btn-hero': 'Vérifier la Disponibilité',
+        'txt-btn-gallery': 'Voir les Photos',
+        'txt-trust1': 'Excellent 9.2 sur Booking',
+        'txt-trust2': '50m de la plage',
+        'txt-trust3': 'Sans commission · Prix direct',
+        'txt-trust4': 'Propriétaire direct',
+        'txt-gallery-title': "L'Appartement",
+        'txt-gallery-sub': '7 photos réelles · Sans filtres',
+        'txt-btn-more-photos': '+ Voir toutes les photos',
+        'txt-btn-booking-photos': '📷 Galerie sur Booking.com',
+        'txt-apt-title': 'Votre Appartement',
+        'txt-stat-bed': 'Chambre',
+        'txt-stat-guests': 'Voyageurs',
+        'txt-stat-bath': 'Salle de bain',
+        'txt-stat-beach': 'de la Plage',
+        'txt-f1-title': 'Emplacement Unique',
+        'txt-f1-desc': "Situé dans l'emblématique Novelty I, avec accès direct au Paseo Jaime I. À 15 min de PortAventura.",
+        'txt-f2-title': 'Équipement Complet',
+        'txt-f2-desc': 'Cuisine équipée, clim, WiFi haut débit, TV Smart et salle de bain moderne rénovée.',
+        'txt-f3-title': 'Piscine & Terrasse',
+        'txt-f3-desc': 'Piscine commune adultes et enfants (juin-sept). Terrasse Est avec store et mobilier extérieur.',
+        'txt-amenities-title': 'Tous les équipements inclus',
+        'txt-amen-kitchen': '🍳 Cuisine',
+        'txt-amen-k1': 'Plaque vitrocéramique', 'txt-amen-k2': 'Micro-ondes', 'txt-amen-k3': 'Cafetière',
+        'txt-amen-k4': 'Grille-pain', 'txt-amen-k5': 'Réfrigérateur', 'txt-amen-k6': 'Lave-linge', 'txt-amen-k7': 'Ustensiles de cuisine',
+        'txt-amen-room': '🛏️ Chambres',
+        'txt-amen-r1': 'Chambre avec 2 lits + lit supplémentaire', 'txt-amen-r2': 'Canapé-lit au salon', 'txt-amen-r3': 'Linge de lit inclus',
+        'txt-amen-r4': 'Serviettes incluses', 'txt-amen-r5': 'Armoires spacieuses', 'txt-amen-r6': 'TV Smart',
+        'txt-amen-extra': '✨ Extras',
+        'txt-amen-e1': 'WiFi haut débit', 'txt-amen-e2': 'Climatisation', 'txt-amen-e3': 'Terrasse avec store',
+        'txt-amen-e4': 'Piscine commune', 'txt-amen-e5': 'Accessible PMR', 'txt-amen-e6': 'Check-in en ligne',
+        'txt-amen-e7': 'Sèche-cheveux', 'txt-amen-e8': 'Fer à repasser',
+        'txt-reviews-title': 'Avis Vérifiés',
+        'txt-reviews-sub': 'Vrais avis de Booking.com',
+        'txt-reviews-label': 'Excellent',
+        'txt-rev-staff': 'Personnel', 'txt-rev-price': 'Rapport qualité-prix', 'txt-rev-clean': 'Propreté',
+        'txt-rev1': '"Emplacement idéal, à deux pas de la plage. Appartement très bien équipé et propriétaire très attentif. On reviendra !"',
+        'txt-rev1-author': 'María G. · Espagne',
+        'txt-rev2': '"Parfait, situé sur la promenade. Propre, bien équipé, la piscine est un vrai plus. Je recommande vivement !"',
+        'txt-rev2-author': 'James T. · Royaume-Uni',
+        'txt-rev3': '"Appartement très bien situé, propre et fonctionnel. La terrasse est top pour les petits déjeuners au soleil."',
+        'txt-rev3-author': 'Sophie M. · France',
+        'txt-all-reviews': 'Voir tous les avis sur Booking.com →',
+        'txt-cal-title': 'Disponibilité',
+        'txt-cal-sub': 'Mis à jour en temps réel',
+        'txt-cal-note': '* Les dates en rouge sont déjà réservées.',
+        'txt-form-title': 'Réservation Directe',
+        'txt-form-desc': 'Écrivez-moi directement et je vous enverrai un devis personnalisé. Sans intermédiaires.',
+        'txt-perk1': 'Meilleur prix garanti',
+        'txt-perk2': 'Accompagnement personnalisé 24h',
+        'txt-perk3': 'Flexibilité sur les dates',
+        'txt-perk4': 'Check-in en ligne sans attente',
+        'txt-wa-btn': 'WhatsApp direct',
+        'lbl-name': 'Nom', 'lbl-in': 'Arrivée', 'lbl-out': 'Départ',
+        'lbl-guests': 'Voyageurs', 'lbl-email': 'E-mail', 'lbl-msg': 'Votre message',
+        'txt-prices-title': 'Tarifs', 'txt-prices-sub': 'Réservation directe · Sans commissions',
+        'txt-p-low-name': 'Basse Saison', 'txt-p-low-dates': 'Octobre — Mars', 'txt-p-low-note': '~79€/nuit',
+        'txt-p-mid-name': 'Moyenne Saison', 'txt-p-mid-dates': 'Avr, Mai, Juin, Sep', 'txt-p-mid-note': '~107€/nuit',
+        'txt-p-easter-name': 'Semaine de Pâques', 'txt-p-easter-dates': 'Variable', 'txt-p-easter-note': '~121€/nuit',
+        'txt-p-high-badge': 'Le plus demandé', 'txt-p-high-name': 'Haute Saison', 'txt-p-high-dates': 'Juillet — Août', 'txt-p-high-note': '~164€/nuit',
+        'txt-price-disclaimer': '* Prix indicatifs pour 2 personnes. Le prix final varie selon le nombre de voyageurs.',
+        'txt-price-discount': '✓ Réduction pour les séjours de plus de 7 nuits — demandez votre devis personnalisé.',
+        'txt-price-parking': '✓ Parking optionnel dans le même bâtiment : 12-15€/jour.',
+        'txt-howto-title': 'Comment Venir', 'txt-howto-sub': 'Carrer de Berlín, 5 · Salou',
+        'txt-d1-name': 'Plage de Llevant', 'txt-d1-time': '50 mètres · 1 min à pied',
+        'txt-d2-name': 'Supermarché', 'txt-d2-time': 'Dans le même bâtiment',
+        'txt-d3-name': 'Restaurants', 'txt-d3-time': 'Nombreuses options autour',
+        'txt-d4-name': 'PortAventura World', 'txt-d4-time': '15 min en voiture',
+        'txt-d5-name': 'Aéroport de Reus', 'txt-d5-time': '20 min en voiture',
+        'txt-d6-name': 'Parking privé', 'txt-d6-time': 'Dans le bâtiment · 12-15€/jour (optionnel)',
+        'txt-faq-title': 'Questions Fréquentes',
+        'txt-faq1-q': "Quels sont les horaires d'arrivée et de départ ?", 'txt-faq1-a': "L'arrivée est à partir de 16h00 et le départ avant 11h00. Si vous avez besoin de flexibilité, contactez-moi à l'avance.",
+        'txt-faq2-q': "Quelle est la politique d'annulation ?", 'txt-faq2-a': "Annulation gratuite jusqu\u2019à 15 jours avant l\u2019arrivée. Au-delà, des frais équivalents à une semaine de séjour s\u2019appliqueront.",
+        'txt-faq3-q': 'Les animaux sont-ils acceptés ?', 'txt-faq3-a': "Désolé, les animaux ne sont pas acceptés dans l'appartement.",
+        'txt-faq4-q': 'Y a-t-il un parking ?', 'txt-faq4-a': "Oui, un parking privé dans le même bâtiment, disponible en option pour 12-15€/jour. Nous recommandons de le réserver à l'avance en haute saison.",
+        'txt-faq5-q': "Combien de personnes peut accueillir l'appartement ?", 'txt-faq5-a': "L'appartement accueille jusqu'à 5 personnes : chambre avec 2 lits simples (combinables en lit double), un lit supplémentaire et un canapé-lit au salon.",
+        'txt-faq6-q': 'Pourquoi réserver directement ?', 'txt-faq6-a': "En réservant directement, vous évitez les commissions de Booking (15-20%) et bénéficiez d'une attention personnalisée.",
+        'txt-btn-submit': 'Envoyer la Demande',
+        'txt-checkin-link': 'Check-in en Ligne',
+        'txt-footer-copy': '© 2026 Réservations directes avec le propriétaire · Sans commissions',
     }
 };
 
 function changeLang(lang) {
-    // 1. Cambiar textos
-    for (let id in translations[lang]) {
-        const element = document.getElementById(id);
-        if (element) element.innerHTML = translations[lang][id];
+    const t = translations[lang];
+    for (let id in t) {
+        const el = document.getElementById(id);
+        if (el) el.innerText = t[id];
     }
+    // Update lightbox captions translation
+    const captionMap = {
+        'es': [
+            'Vista aérea · Edificio Novelty I frente al mar',
+            'Terraza · Orientación este con sol de mañana',
+            'Dormitorio · Cama doble + armario',
+            'Piscina comunitaria · Jun-Sep',
+            'Baño · Reformado recientemente',
+            'Salón · Sofá cama + aire acondicionado',
+            'Cocina · Totalmente equipada con lavadora',
+            'Edificio Novelty I · Paseo Jaime I'
+        ],
+        'en': [
+            'Aerial view · Novelty I Building beachfront',
+            'Terrace · East-facing, morning sun',
+            'Bedroom · Double bed + wardrobe',
+            'Communal pool · Jun-Sep',
+            'Bathroom · Recently renovated',
+            'Living room · Sofa bed + AC',
+            'Kitchen · Fully equipped with washing machine',
+            'Novelty I Building · Paseo Jaime I'
+        ],
+        'fr': [
+            'Vue aérienne · Novelty I face à la mer',
+            'Terrasse · Orientée Est, soleil du matin',
+            'Chambre · Lit double + armoire',
+            'Piscine commune · Juin-Sept',
+            'Salle de bain · Rénovée récemment',
+            'Salon · Canapé-lit + climatisation',
+            'Cuisine · Totalement équipée avec lave-linge',
+            'Immeuble Novelty I · Paseo Jaime I'
+        ]
+    };
+    photos.forEach((p, i) => { p.caption = captionMap[lang]?.[i] || p.caption; });
 
-    // 2. Cambiar placeholders del formulario
-    const msgField = document.getElementById('placeholder-msg');
-    if (msgField) {
-        if (lang === 'en') msgField.placeholder = "How many people? Any questions?";
-        else if (lang === 'fr') msgField.placeholder = "Combien de personnes? Des questions?";
-        else msgField.placeholder = "¿Cuántas personas sois? ¿Alguna duda?";
-    }
+    // Active button
+    document.querySelectorAll('.lang-selector button').forEach(b => b.classList.remove('active'));
+    const activeBtn = document.getElementById('btn-' + lang);
+    if (activeBtn) activeBtn.classList.add('active');
 
-    // 3. ACTUALIZAR IDIOMA DEL CALENDARIO
-    if (window.calendar) {
-        window.calendar.setOption('locale', lang);
+    localStorage.setItem('preferredLang', lang);
+    if (window.calendarInstance) {
+        window.calendarInstance.setOption('locale', lang);
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    
-    // Lo guardamos en window.calendar para que sea accesible desde la función changeLang
-    window.calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        locale: 'es',
-        firstDay: 1,
-        headerToolbar: { left: 'prev,next today', center: 'title', right: '' },
-        events: [
-            { title: 'RESERVADO', start: '2026-04-02', end: '2026-04-06', color: '#ff4d4d', display: 'background' },
-            { title: 'RESERVADO', start: '2026-05-24', end: '2026-06-01', color: '#ff4d4d', display: 'background' },
-            { title: 'RESERVADO', start: '2026-06-05', end: '2026-06-11', color: '#ff4d4d', display: 'background' },
-            { title: 'RESERVADO', start: '2026-06-22', end: '2026-07-03', color: '#ff4d4d', display: 'background' },
-            { title: 'RESERVADO', start: '2026-07-13', end: '2026-07-22', color: '#ff4d4d', display: 'background' },
-            { title: 'RESERVADO', start: '2026-08-03', end: '2026-08-19', color: '#ff4d4d', display: 'background' },
-            { title: 'RESERVADO', start: '2026-08-19', end: '2026-08-30', color: '#ff4d4d', display: 'background' },
-            { title: 'RESERVADO', start: '2026-09-01', end: '2026-09-24', color: '#ff4d4d', display: 'background' }
-        ]
+// =============================
+// INIT
+// =============================
+document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('preferredLang') || 'es';
+    changeLang(savedLang);
+
+    // FAQ - event delegation (más fiable que onclick inline)
+    document.querySelectorAll('.faq-q').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const answer = this.nextElementSibling;
+            const isOpen = answer.classList.contains('open');
+            document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+            document.querySelectorAll('.faq-q').forEach(b => b.classList.remove('open'));
+            if (!isOpen) {
+                answer.classList.add('open');
+                this.classList.add('open');
+            }
+        });
     });
-    window.calendar.render();
+
+    // Calendar
+    const calendarEl = document.getElementById('calendar');
+    if (calendarEl && typeof FullCalendar !== 'undefined') {
+        window.calendarInstance = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: savedLang,
+            firstDay: 1,
+            height: 480,
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: ''
+            },
+            events: [
+                { start: '2026-04-02', end: '2026-04-06', color: '#e05555', display: 'background' },
+                { start: '2026-05-01', end: '2026-05-07', color: '#e05555', display: 'background' },
+                { start: '2026-05-24', end: '2026-06-01', color: '#e05555', display: 'background' },
+                { start: '2026-06-05', end: '2026-06-11', color: '#e05555', display: 'background' },
+                { start: '2026-06-22', end: '2026-07-03', color: '#e05555', display: 'background' },
+                { start: '2026-07-13', end: '2026-07-22', color: '#e05555', display: 'background' },
+                { start: '2026-08-03', end: '2026-08-19', color: '#e05555', display: 'background' },
+                { start: '2026-08-19', end: '2026-08-30', color: '#e05555', display: 'background' },
+                { start: '2026-09-01', end: '2026-09-24', color: '#e05555', display: 'background' }
+            ]
+        });
+        window.calendarInstance.render();
+    }
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+
+    // Intersection Observer for animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.feature-card, .review-card, .apt-stat').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(el);
+    });
+
+    // Fake visible when intersection fires
+    document.querySelectorAll('.feature-card, .review-card, .apt-stat').forEach(el => {
+        const obs2 = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.style.opacity = '1';
+                    e.target.style.transform = 'translateY(0)';
+                    obs2.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        obs2.observe(el);
+    });
 });
+
+// =============================
+

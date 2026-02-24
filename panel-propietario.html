@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generador Novelty</title>
+    <style>body{font-family:sans-serif; padding:20px;} input{margin-bottom:10px; padding:5px; width:100%;}</style>
+</head>
+<body>
+    <h3>Generador de Contratos Personalizados</h3>
+    Nombre del Cliente: <input id="n" type="text" placeholder="Arfan Rashid">
+    Fecha Entrada: <input id="i" type="date">
+    Fecha Salida: <input id="f" type="date">
+    Precio Total (€): <input id="t" type="number" placeholder="350">
+    Reserva Pagada (€): <input id="r" type="number" value="100">
+    <button onclick="gen()" style="padding:10px; background:blue; color:white; width:100%;">Generar Enlace</button>
+    <br><br>
+    <div id="out" style="word-break:break-all; background:#eee; padding:10px; border:1px solid #ccc;"></div>
+    <button onclick="copy()" id="btn-copy" style="display:none; margin-top:10px;">Copiar Enlace</button>
+
+    <script>
+    function gen() {
+        const url = `https://noveltysalou.com/contrato.html?nombre=${encodeURIComponent(document.getElementById('n').value)}&entrada=${document.getElementById('i').value}&salida=${document.getElementById('f').value}&total=${document.getElementById('t').value}&reserva=${document.getElementById('r').value}`;
+        document.getElementById('out').innerText = url;
+        document.getElementById('btn-copy').style.display = 'block';
+    }
+    function copy() {
+        navigator.clipboard.writeText(document.getElementById('out').innerText);
+        alert("Enlace copiado. ¡Ya puedes pegarlo en el email o WhatsApp de Arfan!");
+    }
+    </script>
+</body>
+</html>

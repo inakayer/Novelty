@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrato Alquiler | Novelty I Salou</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <style>
+        .contract-box { max-width: 900px; margin: 20px auto; padding: 40px; background: #fff; border: 1px solid #ccc; font-family: 'Arial', sans-serif; font-size: 13px; color: #333; }
+        .contract-header { text-align: center; border-bottom: 2px solid #000; margin-bottom: 20px; }
+        .bilingual-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
+        .lang-es { font-style: normal; }
+        .lang-en { font-style: italic; color: #666; }
+        .highlight-box { background: #f9f9f9; padding: 15px; border: 1px solid #ddd; margin: 20px 0; }
+        .clause-title { font-weight: bold; text-transform: uppercase; display: block; margin-top: 15px; border-left: 3px solid #003580; padding-left: 10px; }
+        canvas { border: 1px solid #000; width: 100%; height: 150px; background: #fff; }
+        .params-data { font-weight: bold; color: #003580; font-size: 1.1em; }
+    </style>
+</head>
+<body>
+
+<div class="contract-box">
+    <div class="contract-header">
+        <h2>NOVELTY I SALOU</h2>
+        <p>CONTRATO DE ARRENDAMIENTO DE TEMPORADA / HOLIDAY RENTAL LEASE AGREEMENT</p>
+    </div>
+
+    <form name="contrato-firmado" method="POST" data-netlify="true" onsubmit="return preformSubmit()">
+        <input type="hidden" name="form-name" value="contrato-firmado" />
+        <input type="hidden" name="firma_base64" id="hidden-signature">
+
+        <div class="bilingual-row">
+            <div class="lang-es">
+                <span class="clause-title">PARTES CONTRATANTES</span>
+                <b>Arrendador:</b> IGNACIO AYERRA RUIZ (DNI 33418881L)<br>
+                <b>Arrendatario:</b> <span id="val-nombre" class="params-data">...</span>
+            </div>
+            <div class="lang-en">
+                <span class="clause-title">CONTRACTING PARTIES</span>
+                <b>Landlord:</b> IGNACIO AYERRA RUIZ<br>
+                <b>Tenant:</b> <span id="val-nombre-en" class="params-data">...</span>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            <div class="bilingual-row" style="border:none">
+                <div class="lang-es">
+                    <b>Apartamento:</b> C/ Berlín 5, Novelty I, Planta 3, puerta 13, Salou.<br>
+                    <b>Estancia:</b> <span id="val-fechas" class="params-data">...</span><br>
+                    <b>Precio Total:</b> <span id="val-total" class="params-data">...</span>
+                </div>
+                <div class="lang-en">
+                    <b>Property:</b> C/ Berlin 5, Novelty I Building, 3rd floor, door 13.<br>
+                    <b>Duration:</b> <span id="val-fechas-en" class="params-data">...</span><br>
+                    <b>Total Price:</b> <span id="val-total-en" class="params-data">...</span>
+                </div>
+            </div>
+            <p style="text-align:center; margin:0; font-size:0.8em;">
+                (Reserva/Deposit: <span id="val-reserva">...</span> | Pendiente/Balance: <span id="val-pendiente" style="color:red">...</span>)
+            </p>
+        </div>
+
+        <div class="bilingual-row">
+            <div class="lang-es">
+                <span class="clause-title">OBLIGACIONES</span>
+                - Mantener la propiedad en perfecto estado.<br>
+                - Notificar cualquier avería de inmediato.<br>
+                - Prohibido hacer copias de las llaves.<br>
+                - Respetar las normas de la comunidad.
+            </div>
+            <div class="lang-en">
+                <span class="clause-title">OBLIGATIONS</span>
+                - Maintain the property in perfect condition.<br>
+                - Notify any breakdown immediately.<br>
+                - Prohibited to make copies of the keys.<br>
+                - Respect the community rules.
+            </div>
+        </div>
+
+        <div class="bilingual-row">
+            <div class="lang-es">
+                <span class="clause-title">CANCELACIÓN Y LEY</span>
+                Cancelación gratuita hasta 7 días antes. El contrato se rige por el Decreto 75/2020 de Cataluña. Jurisdicción: Juzgados de Tarragona.
+            </div>
+            <div class="lang-en">
+                <span class="clause-title">CANCELLATION & LAW</span>
+                Free cancellation up to 7 days before. Governed by Decree 75/2020 (Catalonia). Jurisdiction: Courts of Tarragona.
+            </div>
+        </div>
+
+        <div style="margin-top:30px; border: 1px solid #000; padding: 10px;">
+            <p style="text-align:center; font-weight:bold;">FIRMA DEL ARRENDATARIO / TENANT'S SIGNATURE</p>
+            <canvas id="sig-canvas"></canvas>
+            <button type="button" onclick="sigPad.clear()">Borrar / Clear</button>
+        </div>
+
+        <button type="submit" class="btn" style="width:100%; margin-top:20px; background:#003580; color:#fff;">ACEPTAR Y CONFIRMAR / ACCEPT & CONFIRM</button>
+    </form>
+</div>
+
+<script>
+    const canvas = document.getElementById('sig-canvas');
+    const sigPad = new SignaturePad(canvas);
+    
+    function getParams() {
+        const p = new URLSearchParams(window.location.search);
+        const name = p.get('nombre') || '...';
+        document.getElementById('val-nombre').innerText = name;
+        document.getElementById('val-nombre-en').innerText = name;
+        
+        if(p.has('entrada') && p.has('salida')) {
+            const range = `${p.get('entrada')} al ${p.get('salida')}`;
+            document.getElementById('val-fechas').innerText = range;
+            document.getElementById('val-fechas-en').innerText = range;
+        }
+
+        if(p.has('total')) {
+            const tot = p.get('total');
+            const res = p.get('reserva') || 100;
+            document.getElementById('val-total').innerText = tot + '€';
+            document.getElementById('val-total-en').innerText = tot + '€';
+            document.getElementById('val-reserva').innerText = res + '€';
+            document.getElementById('val-pendiente').innerText = (tot - res) + '€';
+        }
+    }
+
+    function preformSubmit() {
+        if (sigPad.isEmpty()) { alert("Please sign the contract / Por favor, firme el contrato"); return false; }
+        document.getElementById('hidden-signature').value = sigPad.toDataURL();
+        return true;
+    }
+
+    function resize() {
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext("2d").scale(ratio, ratio);
+    }
+
+    window.onload = () => { getParams(); resize(); };
+</script>
+</body>
+</html>
