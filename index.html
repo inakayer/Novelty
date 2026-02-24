@@ -492,7 +492,8 @@
                     </a>
                 </div>
                 <div class="contact-form-wrap">
-                    <form action="https://formspree.io/f/XXXXX" method="POST" class="booking-form">
+                    <form name="consulta-reserva" action="/success.html" method="POST" data-netlify="true" class="booking-form">
+                        <input type="hidden" name="form-name" value="consulta-reserva">
                         <div class="form-group">
                             <label id="lbl-name">Nombre</label>
                             <input type="text" name="name" required>
@@ -537,7 +538,6 @@
                 <p class="footer-logo">Novelty I — Salou</p>
                 <p>Carrer de Berlín, 5, 43840 Salou, Tarragona</p>
                 <p id="footer-lic">Licencia turística: HUTT-050051</p>
-                <p><a href="https://wa.me/34617473807" style="color:#c5a059">WhatsApp: +34 617 473 807</a></p>
             </div>
             <div class="footer-links">
                 <a href="registro.html" id="txt-checkin-link">Check-in Online</a>

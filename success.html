@@ -3,22 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitud Recibida - Apartamento Novelty</title>
+    <title>Enviado | Novelty I Salou</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231a2a3a'/><path d='M50 18 L82 42 L82 82 L18 82 L18 42 Z' fill='none' stroke='%23c5a059' stroke-width='5'/><rect x='38' y='55' width='24' height='27' fill='%23c5a059'/><rect x='60' y='30' width='12' height='16' fill='%23c5a059' opacity='0.6'/></svg>">
     <style>
-        body { font-family: 'Open Sans', sans-serif; text-align: center; padding: 50px; color: #333; }
-        .card { max-width: 500px; margin: auto; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #28a745; }
-        h1 { color: #28a745; }
-        .btn { display: inline-block; background: #0056b3; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+        :root { --primary:#1a2a3a; --accent:#c5a059; --bg:#faf9f7; --text:#3d3d3d; --text-light:#777; --border:#e5e2dc; }
+        * { box-sizing:border-box; margin:0; padding:0; }
+        body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; }
+
+        nav { background:white; border-bottom:1px solid var(--border); padding:14px 24px; }
+        .logo-main { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:700; color:var(--primary); letter-spacing:1px; display:block; text-decoration:none; }
+        .logo-sub { font-size:0.62rem; color:var(--text-light); letter-spacing:2px; text-transform:uppercase; display:block; }
+
+        main { flex:1; display:flex; align-items:center; justify-content:center; padding:40px 20px; }
+
+        .success-card {
+            background:white;
+            border:1px solid var(--border);
+            border-radius:12px;
+            padding:60px 48px;
+            max-width:520px;
+            width:100%;
+            text-align:center;
+            animation: fadeUp 0.6s ease both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity:0; transform:translateY(20px); }
+            to { opacity:1; transform:translateY(0); }
+        }
+
+        .check-circle {
+            width:72px;
+            height:72px;
+            background:linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin:0 auto 28px;
+            font-size:2rem;
+        }
+
+        h1 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:2rem;
+            font-weight:400;
+            color:var(--primary);
+            margin-bottom:14px;
+            letter-spacing:1px;
+        }
+
+        p {
+            font-size:0.9rem;
+            color:var(--text-light);
+            line-height:1.75;
+            margin-bottom:10px;
+        }
+
+        .divider {
+            width:40px;
+            height:2px;
+            background:var(--accent);
+            margin:24px auto;
+            border-radius:2px;
+        }
+
+        .btn-back {
+            display:inline-block;
+            margin-top:28px;
+            background:var(--primary);
+            color:white;
+            padding:13px 28px;
+            font-size:0.8rem;
+            font-weight:700;
+            letter-spacing:1.5px;
+            text-transform:uppercase;
+            text-decoration:none;
+            border-radius:4px;
+            transition:background 0.2s;
+        }
+        .btn-back:hover { background:var(--accent); }
+
+        footer { text-align:center; padding:24px; color:var(--text-light); font-size:0.78rem; border-top:1px solid var(--border); }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>¡Solicitud Recibida!</h1>
-        <p>Hola, hemos recibido tus fechas correctamente.</p>
-        <p><strong>¿Qué pasa ahora?</strong><br>
-        Revisaremos la disponibilidad y te enviaremos el presupuesto personalizado a tu email en menos de 24 horas.</p>
-        <p>Si tienes mucha prisa, puedes contactarnos por WhatsApp en el teléfono que aparece en Google Maps.</p>
-        <a href="/" class="btn">Volver a la web</a>
+
+<nav>
+    <a href="index.html" class="logo-main">
+        Novelty I
+        <span class="logo-sub">Salou · Paseo Jaime I</span>
+    </a>
+</nav>
+
+<main>
+    <div class="success-card">
+        <div class="check-circle">✓</div>
+        <h1 id="success-title">¡Enviado con éxito!</h1>
+        <div class="divider"></div>
+        <p id="success-msg1">Hemos recibido tu mensaje correctamente.</p>
+        <p id="success-msg2">Te responderé lo antes posible, normalmente en menos de 24 horas.</p>
+        <p id="success-msg3">Si tienes urgencia, también puedes contactarme por WhatsApp.</p>
+        <a href="index.html" class="btn-back" id="success-btn">← Volver a la web</a>
     </div>
+</main>
+
+<footer>© 2026 Novelty I Salou · Reservas directas con el propietario</footer>
+
+<script>
+    // Detectar si viene del registro o del formulario de contacto
+    const ref = document.referrer;
+    const lang = localStorage.getItem('preferredLang') || 'es';
+
+    const isRegistro = ref.includes('registro');
+
+    const texts = {
+        es: {
+            contact: { title:'¡Consulta enviada!', m1:'Hemos recibido tu consulta correctamente.', m2:'Te responderé lo antes posible, normalmente en menos de 24 horas.', m3:'Si tienes urgencia, también puedes contactarme por WhatsApp.', btn:'← Volver a la web' },
+            registro: { title:'¡Registro completado!', m1:'El check-in online se ha registrado correctamente.', m2:'Recibirás una confirmación por email en breve.', m3:'¡Te esperamos en Novelty I Salou!', btn:'← Volver a la web' }
+        },
+        en: {
+            contact: { title:'Message sent!', m1:'We have received your enquiry correctly.', m2:"I'll get back to you as soon as possible, usually within 24 hours.", m3:'If urgent, you can also contact me via WhatsApp.', btn:'← Back to website' },
+            registro: { title:'Check-in complete!', m1:'Your online check-in has been registered successfully.', m2:"You'll receive a confirmation email shortly.", m3:'We look forward to welcoming you at Novelty I Salou!', btn:'← Back to website' }
+        },
+        fr: {
+            contact: { title:'Message envoyé !', m1:'Votre demande a bien été reçue.', m2:"Je vous répondrai dans les plus brefs délais, généralement en moins de 24 heures.", m3:'En cas d\'urgence, vous pouvez aussi me contacter par WhatsApp.', btn:'← Retour au site' },
+            registro: { title:'Enregistrement effectué !', m1:'Votre check-in en ligne a été enregistré avec succès.', m2:'Vous recevrez une confirmation par email sous peu.', m3:'Nous vous attendons au Novelty I Salou !', btn:'← Retour au site' }
+        }
+    };
+
+    const t = (texts[lang] || texts.es)[isRegistro ? 'registro' : 'contact'];
+    document.getElementById('success-title').innerText = t.title;
+    document.getElementById('success-msg1').innerText = t.m1;
+    document.getElementById('success-msg2').innerText = t.m2;
+    document.getElementById('success-msg3').innerText = t.m3;
+    document.getElementById('success-btn').innerText = t.btn;
+</script>
 </body>
 </html>
