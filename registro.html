@@ -337,7 +337,13 @@
     }
 
     // TRADUCCIONES
-    let currentLang = localStorage.getItem('preferredLang') || 'es';
+    // Detectar idioma: 1) parámetro URL, 2) localStorage, 3) español por defecto
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lang');
+    const validLangs = ['es', 'en', 'fr'];
+    let currentLang = (urlLang && validLangs.includes(urlLang))
+        ? urlLang
+        : (localStorage.getItem('preferredLang') || 'es');
 
     const regTranslations = {
         es: {
