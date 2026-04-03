@@ -359,8 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
             events: [
                 { start: '2026-04-02', end: '2026-04-06', color: '#e05555', display: 'background' },
                 { start: '2026-04-06', end: '2026-04-10', color: '#e05555', display: 'background' },
-                { start: '2026-04-13', end: '2026-04-17', color: '#e05555', display: 'background' },
-                { start: '2026-05-01', end: '2026-05-07', color: '#e05555', display: 'background' },
+                { start: '2026-05-03', end: '2026-05-09', color: '#e05555', display: 'background' },
                 { start: '2026-05-24', end: '2026-06-01', color: '#e05555', display: 'background' },
                 { start: '2026-06-05', end: '2026-06-11', color: '#e05555', display: 'background' },
                 { start: '2026-06-22', end: '2026-07-03', color: '#e05555', display: 'background' },
@@ -368,7 +367,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 { start: '2026-07-13', end: '2026-07-22', color: '#e05555', display: 'background' },
                 { start: '2026-07-25', end: '2026-08-01', color: '#e05555', display: 'background' },
                 { start: '2026-08-03', end: '2026-08-19', color: '#e05555', display: 'background' },
-                { start: '2026-08-19', end: '2026-08-30', color: '#e05555', display: 'background' },
                 { start: '2026-09-01', end: '2026-09-24', color: '#e05555', display: 'background' }
             ]
         });
