@@ -359,6 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
             events: [
                 { start: '2026-04-02', end: '2026-04-06', color: '#e05555', display: 'background' },
                 { start: '2026-04-06', end: '2026-04-10', color: '#e05555', display: 'background' },
+                { start: '2026-04-15', end: '2026-04-18', color: '#e05555', display: 'background' },
                 { start: '2026-05-03', end: '2026-05-09', color: '#e05555', display: 'background' },
                 { start: '2026-05-24', end: '2026-06-01', color: '#e05555', display: 'background' },
                 { start: '2026-06-05', end: '2026-06-11', color: '#e05555', display: 'background' },
