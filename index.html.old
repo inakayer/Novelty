@@ -50,7 +50,7 @@
                     <button onclick="changeLang('en')" id="btn-en">EN</button>
                     <button onclick="changeLang('fr')" id="btn-fr">FR</button>
                 </div>
-                <a href="#disponibilidad" class="nav-cta" id="txt-nav-cta">Reservar</a>
+                <a href="#contacto" class="nav-cta" id="txt-nav-cta">Reservar</a>
             </div>
         </div>
     </nav>
@@ -75,7 +75,7 @@
                 </div>
             </div>
             <div class="hero-actions">
-                <a href="#disponibilidad" class="btn-primary" id="txt-btn-hero">Consultar Disponibilidad</a>
+                <a href="#contacto" class="btn-primary" id="txt-btn-hero">Consultar Disponibilidad</a>
                 <a href="#galeria" class="btn-ghost" id="txt-btn-gallery">Ver Fotos</a>
             </div>
         </div>

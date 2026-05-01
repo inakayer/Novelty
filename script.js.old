@@ -133,7 +133,6 @@ const translations = {
         'txt-btn-submit': 'Enviar Consulta Directa',
         'txt-checkin-link': 'Check-in Online',
         'txt-footer-copy': '© 2026 Reservas directas con el propietario · Sin comisiones',
-        'txt-cal-cta': '¿Fecha disponible? Consulta precio →',
         "civitatis-title": "Prepara tu viaje a Salou",
         "civitatis-subtitle": "Reserva las mejores actividades, traslados y el Free Tour directamente desde aquí:"
     },
@@ -223,7 +222,6 @@ const translations = {
         'txt-btn-submit': 'Send Direct Inquiry',
         'txt-checkin-link': 'Online Check-in',
         'txt-footer-copy': '© 2026 Direct bookings with the owner · No commissions',
-        'txt-cal-cta': 'Date available? Ask for a quote →',
         "civitatis-title": "Plan your trip to Salou",
         "civitatis-subtitle": "Book the best activities, transfers and the Free Tour directly from here:"
     },
@@ -314,7 +312,6 @@ const translations = {
         'txt-btn-submit': 'Envoyer la Demande',
         'txt-checkin-link': 'Check-in en Ligne',
         'txt-footer-copy': '© 2026 Réservations directes avec le propriétaire · Sans commissions',
-        'txt-cal-cta': 'Date disponible ? Demandez un devis →',
         "civitatis-title": "Préparez votre voyage à Salou",
         "civitatis-subtitle": "Réservez les meilleures activités, les transferts et le Free Tour directement d'ici :"
     }
