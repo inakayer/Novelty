@@ -327,9 +327,9 @@ function changeLang(lang) {
         if (el) el.innerText = t[id];
     }
     const captionMap = {
-        es: ['Vista aérea · Edificio Novelty I frente al mar','Terraza · Orientación este con sol de mañana','Dormitorio · 2 camas + cama supletoria','Piscina comunitaria · Jun-Sep','Baño · Reformado recientemente','Salón · Sofá cama + aire acondicionado','Cocina · Totalmente equipada con lavadora','Edificio Novelty I · Paseo Jaime I'],
-        en: ['Aerial view · Novelty I Building beachfront','Terrace · East-facing, morning sun','Bedroom · 2 beds + extra bed','Communal pool · Jun-Sep','Bathroom · Recently renovated','Living room · Sofa bed + AC','Kitchen · Fully equipped with washing machine','Novelty I Building · Paseo Jaime I'],
-        fr: ['Vue aérienne · Novelty I face à la mer','Terrasse · Orientée Est, soleil du matin','Chambre · 2 lits + lit supplémentaire','Piscine commune · Juin-Sept','Salle de bain · Rénovée récemment','Salon · Canapé-lit + climatisation','Cuisine · Totalement équipée avec lave-linge','Immeuble Novelty I · Paseo Jaime I']
+        es: ['Vista aérea · Edificio Novelty I frente al mar', 'Terraza · Orientación este con sol de mañana', 'Dormitorio · 2 camas + cama supletoria', 'Piscina comunitaria · Jun-Sep', 'Baño · Reformado recientemente', 'Salón · Sofá cama + aire acondicionado', 'Cocina · Totalmente equipada con lavadora', 'Edificio Novelty I · Paseo Jaime I'],
+        en: ['Aerial view · Novelty I Building beachfront', 'Terrace · East-facing, morning sun', 'Bedroom · 2 beds + extra bed', 'Communal pool · Jun-Sep', 'Bathroom · Recently renovated', 'Living room · Sofa bed + AC', 'Kitchen · Fully equipped with washing machine', 'Novelty I Building · Paseo Jaime I'],
+        fr: ['Vue aérienne · Novelty I face à la mer', 'Terrasse · Orientée Est, soleil du matin', 'Chambre · 2 lits + lit supplémentaire', 'Piscine commune · Juin-Sept', 'Salle de bain · Rénovée récemment', 'Salon · Canapé-lit + climatisation', 'Cuisine · Totalement équipée avec lave-linge', 'Immeuble Novelty I · Paseo Jaime I']
     };
     photos.forEach((p, i) => { p.caption = captionMap[lang]?.[i] || p.caption; });
 
@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // FAQ
     document.querySelectorAll('.faq-q').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             const answer = this.nextElementSibling;
             const isOpen = answer.classList.contains('open');
             document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
@@ -378,9 +378,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 { start: '2026-07-23', end: '2026-08-02', color: '#e05555', display: 'background' },
                 { start: '2026-08-03', end: '2026-08-19', color: '#e05555', display: 'background' },
                 { start: '2026-08-19', end: '2026-08-23', color: '#e05555', display: 'background' },
-                { start: '2026-08-24', end: '2026-08-30', color: '#e05555', display: 'background' },
-                { start: '2026-09-02', end: '2026-09-09', color: '#e05555', display: 'background' }, 
-                { start: '2026-09-13', end: '2026-09-19', color: '#e05555', display: 'background' },                               
+                { start: '2026-09-02', end: '2026-09-09', color: '#e05555', display: 'background' },
+                { start: '2026-09-13', end: '2026-09-19', color: '#e05555', display: 'background' },
                 { start: '2026-09-26', end: '2026-10-03', color: '#e05555', display: 'background' }
             ]
         });
@@ -389,7 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
+        anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) target.scrollIntoView({ behavior: 'smooth' });
