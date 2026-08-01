@@ -380,7 +380,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 { start: '2026-08-19', end: '2026-08-23', color: '#e05555', display: 'background' },
                 { start: '2026-09-03', end: '2026-09-09', color: '#e05555', display: 'background' },
                 { start: '2026-09-14', end: '2026-09-19', color: '#e05555', display: 'background' },
-                { start: '2026-09-25', end: '2026-10-03', color: '#e05555', display: 'background' }
+                { start: '2026-09-27', end: '2026-10-03', color: '#e05555', display: 'background' },
+                { start: '2026-10-09', end: '2026-10-15', color: '#e05555', display: 'background' }
             ]
         });
         window.calendarInstance.render();
