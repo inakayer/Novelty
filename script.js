@@ -133,7 +133,6 @@ const translations = {
         'txt-btn-submit': 'Enviar Consulta Directa',
         'txt-checkin-link': 'Check-in Online',
         'txt-footer-copy': '© 2026 Reservas directas con el propietario · Sin comisiones',
-        'txt-cal-cta': '¿Fecha disponible? Consulta precio →',
         "civitatis-title": "Prepara tu viaje a Salou",
         "civitatis-subtitle": "Reserva las mejores actividades, traslados y el Free Tour directamente desde aquí:"
     },
@@ -223,7 +222,6 @@ const translations = {
         'txt-btn-submit': 'Send Direct Inquiry',
         'txt-checkin-link': 'Online Check-in',
         'txt-footer-copy': '© 2026 Direct bookings with the owner · No commissions',
-        'txt-cal-cta': 'Date available? Ask for a quote →',
         "civitatis-title": "Plan your trip to Salou",
         "civitatis-subtitle": "Book the best activities, transfers and the Free Tour directly from here:"
     },
@@ -314,7 +312,6 @@ const translations = {
         'txt-btn-submit': 'Envoyer la Demande',
         'txt-checkin-link': 'Check-in en Ligne',
         'txt-footer-copy': '© 2026 Réservations directes avec le propriétaire · Sans commissions',
-        'txt-cal-cta': 'Date disponible ? Demandez un devis →',
         "civitatis-title": "Préparez votre voyage à Salou",
         "civitatis-subtitle": "Réservez les meilleures activités, les transferts et le Free Tour directement d'ici :"
     }
@@ -327,9 +324,9 @@ function changeLang(lang) {
         if (el) el.innerText = t[id];
     }
     const captionMap = {
-        es: ['Vista aérea · Edificio Novelty I frente al mar', 'Terraza · Orientación este con sol de mañana', 'Dormitorio · 2 camas + cama supletoria', 'Piscina comunitaria · Jun-Sep', 'Baño · Reformado recientemente', 'Salón · Sofá cama + aire acondicionado', 'Cocina · Totalmente equipada con lavadora', 'Edificio Novelty I · Paseo Jaime I'],
-        en: ['Aerial view · Novelty I Building beachfront', 'Terrace · East-facing, morning sun', 'Bedroom · 2 beds + extra bed', 'Communal pool · Jun-Sep', 'Bathroom · Recently renovated', 'Living room · Sofa bed + AC', 'Kitchen · Fully equipped with washing machine', 'Novelty I Building · Paseo Jaime I'],
-        fr: ['Vue aérienne · Novelty I face à la mer', 'Terrasse · Orientée Est, soleil du matin', 'Chambre · 2 lits + lit supplémentaire', 'Piscine commune · Juin-Sept', 'Salle de bain · Rénovée récemment', 'Salon · Canapé-lit + climatisation', 'Cuisine · Totalement équipée avec lave-linge', 'Immeuble Novelty I · Paseo Jaime I']
+        es: ['Vista aérea · Edificio Novelty I frente al mar','Terraza · Orientación este con sol de mañana','Dormitorio · 2 camas + cama supletoria','Piscina comunitaria · Jun-Sep','Baño · Reformado recientemente','Salón · Sofá cama + aire acondicionado','Cocina · Totalmente equipada con lavadora','Edificio Novelty I · Paseo Jaime I'],
+        en: ['Aerial view · Novelty I Building beachfront','Terrace · East-facing, morning sun','Bedroom · 2 beds + extra bed','Communal pool · Jun-Sep','Bathroom · Recently renovated','Living room · Sofa bed + AC','Kitchen · Fully equipped with washing machine','Novelty I Building · Paseo Jaime I'],
+        fr: ['Vue aérienne · Novelty I face à la mer','Terrasse · Orientée Est, soleil du matin','Chambre · 2 lits + lit supplémentaire','Piscine commune · Juin-Sept','Salle de bain · Rénovée récemment','Salon · Canapé-lit + climatisation','Cuisine · Totalement équipée avec lave-linge','Immeuble Novelty I · Paseo Jaime I']
     };
     photos.forEach((p, i) => { p.caption = captionMap[lang]?.[i] || p.caption; });
 
@@ -342,6 +339,22 @@ function changeLang(lang) {
 }
 
 // =============================
+// CALENDARIO — Fechas reales de reserva
+// Pon la fecha real de entrada y salida.
+// La función pinta rojo solo los días intermedios
+// (día de entrada y salida quedan libres para el siguiente/anterior huésped)
+// =============================
+function reservasToEvents(reservas) {
+    return reservas.map(([start, end]) => {
+        const s = new Date(start);
+        const e = new Date(end);
+        s.setDate(s.getDate() + 1); // día entrada libre
+        // end ya es exclusivo en FullCalendar, no hace falta restar
+        return { start: s.toISOString().slice(0,10), end: end, color: '#e05555', display: 'background' };
+    }).filter(ev => ev.start < ev.end);
+}
+
+// =============================
 // INIT
 // =============================
 document.addEventListener('DOMContentLoaded', () => {
@@ -350,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // FAQ
     document.querySelectorAll('.faq-q').forEach(btn => {
-        btn.addEventListener('click', function () {
+        btn.addEventListener('click', function() {
             const answer = this.nextElementSibling;
             const isOpen = answer.classList.contains('open');
             document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
@@ -365,31 +378,32 @@ document.addEventListener('DOMContentLoaded', () => {
         window.calendarInstance = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth', locale: savedLang, firstDay: 1, height: 480,
             headerToolbar: { left: 'prev,next today', center: 'title', right: '' },
-            events: [
-                { start: '2026-04-02', end: '2026-04-06', color: '#e05555', display: 'background' },
-                { start: '2026-04-06', end: '2026-04-10', color: '#e05555', display: 'background' },
-                { start: '2026-04-15', end: '2026-04-18', color: '#e05555', display: 'background' },
-                { start: '2026-05-03', end: '2026-05-09', color: '#e05555', display: 'background' },
-                { start: '2026-05-24', end: '2026-06-01', color: '#e05555', display: 'background' },
-                { start: '2026-06-09', end: '2026-06-22', color: '#e05555', display: 'background' },
-                { start: '2026-06-22', end: '2026-07-03', color: '#e05555', display: 'background' },
-                { start: '2026-07-05', end: '2026-07-12', color: '#e05555', display: 'background' },
-                { start: '2026-07-13', end: '2026-07-22', color: '#e05555', display: 'background' },
-                { start: '2026-07-23', end: '2026-08-02', color: '#e05555', display: 'background' },
-                { start: '2026-08-03', end: '2026-08-19', color: '#e05555', display: 'background' },
-                { start: '2026-08-19', end: '2026-08-23', color: '#e05555', display: 'background' },
-                { start: '2026-09-03', end: '2026-09-09', color: '#e05555', display: 'background' },
-                { start: '2026-09-14', end: '2026-09-19', color: '#e05555', display: 'background' },
-                { start: '2026-09-27', end: '2026-10-03', color: '#e05555', display: 'background' },
-                { start: '2026-10-09', end: '2026-10-15', color: '#e05555', display: 'background' }
-            ]
+                        events: reservasToEvents([
+                ['2026-04-02', '2026-04-06'],
+                ['2026-04-06', '2026-04-10'],
+                ['2026-04-15', '2026-04-18'],
+                ['2026-05-03', '2026-05-09'],
+                ['2026-05-24', '2026-06-01'],
+                ['2026-06-09', '2026-06-22'],
+                ['2026-06-22', '2026-07-03'],
+                ['2026-07-05', '2026-07-12'],
+                ['2026-07-13', '2026-07-22'],
+                ['2026-07-23', '2026-08-02'],
+                ['2026-08-03', '2026-08-19'],
+                ['2026-08-19', '2026-08-23'],
+                ['2026-08-23', '2026-08-30'],
+                ['2026-09-02', '2026-09-09'],
+                ['2026-09-13', '2026-09-19'],
+                ['2026-09-26', '2026-10-03'],
+                ['2026-10-08', '2026-10-15'],
+            ])
         });
         window.calendarInstance.render();
     }
 
     // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+        anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) target.scrollIntoView({ behavior: 'smooth' });
