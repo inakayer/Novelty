@@ -397,6 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ['2026-09-13', '2026-09-26'],
                 ['2026-09-26', '2026-10-03'],
                 ['2026-10-08', '2026-10-15'],
+                ['2027-04-24', '2027-05-29'],
             ])
         });
         window.calendarInstance.render();
